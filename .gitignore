@@ -59,3 +59,12 @@ typings/
 
 # next.js build output
 .next
+
+logs/
+.idea/
+.vscode/
+run/
+.DS_Store
+.vscode
+*.swp
+*.lock

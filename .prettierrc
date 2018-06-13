@@ -1,0 +1,15 @@
+{
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": false,
+  "editor.formatOnType": false,
+  "prettier.trailingComma": "none",
+  "prettier.printWidth": 200,
+  "prettier.disableLanguages": [],
+  "prettier.eslintIntegration": true,
+  "prettier.arrowParens": "always",
+  "prettier.tabWidth": 2,
+  "prettier.singleQuote": true,
+  "[scss]": {
+    "prettier.singleQuote": false
+  }
+}
