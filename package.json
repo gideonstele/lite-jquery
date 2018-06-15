@@ -2,7 +2,7 @@
   "name": "lite-jquery",
   "version": "1.0.0-alpha",
   "description": "A jquery like library",
-  "main": "dist/lite.umd.js",
+  "main": "dist/lite.cjs.js",
   "scripts": {
     "start": "",
     "prod": "cross-env NODE_ENV=production node ./build/prod.js",

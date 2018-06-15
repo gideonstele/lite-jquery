@@ -11,34 +11,6 @@ const f = function () {};
 export const warn = (console && console.warn) || f;
 export const log = (console && console.log) || f;
 
-if (typeof doc === 'undefined') {
-  console.warn(
-    'STAT Error: The Document as The Global Object does NOT exist! '
-  );
-}
-
-if (typeof win === 'undefined') {
-  console.warn('STAT Error: The Window as The Global Object does NOT exist! ');
-}
-
-if (!('querySelectorAll' in doc)) {
-  console.warn('STAT Error: The Method of querySelector does NOT exist! ');
-}
-
-
-if (typeof doc === 'undefined') {
-  console.warn(
-    'STAT Error: The Document as The Global Object does NOT exist! '
-  );
-}
-
-if (typeof win === 'undefined') {
-  console.warn('STAT Error: The Window as The Global Object does NOT exist! ');
-}
-
-if (!('querySelectorAll' in doc)) {
-  console.warn('STAT Error: The Method of querySelector does NOT exist! ');
-}
 
 function wrap(dom = [], selector) {
   Object.setPrototypeOf ?

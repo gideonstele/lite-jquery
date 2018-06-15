@@ -11,5 +11,5 @@
     ],
     "stage-0"
   ],
-  "plugins": [ "transform-decorators"]
+  "plugins": [ "external-helpers", "transform-decorators"]
 }

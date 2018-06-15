@@ -33,3 +33,6 @@ const callback = (data, proc) => {
 
 console.log( timeLine(), chalk.green('Complier Running....') );
 pack.on('message', data => callback(data, pack));
+pack.on('exit', () => {
+  process.exit();
+})

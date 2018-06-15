@@ -5,7 +5,7 @@ module.exports = {
   parserOptions: {
     parser: "babel-eslint",
     ecmaFeatures: {
-      jsx: true
+      ecmaVersion: "6"
     }
   },
   env: {
@@ -23,6 +23,7 @@ module.exports = {
     // allow debugger during development
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     semi: ["warn", "always"],
+    eqeqeq: ["warn"],
     "eol-last": ["off"],
     "no-multiple-empty-lines": ["off"],
     "one-var": ["off"],
@@ -30,6 +31,12 @@ module.exports = {
     "no-proto": ["off"],
     "wrap-iife": ["off"],
     "import/first": ["off"],
-    "comma-style": ["off"]
+    "comma-style": ["off"],
+    "yoda": ["off"],
+    "no-cond-assign": ["off"],
+    "space-before-blocks": ["off"],
+    "padded-blocks": ["off"],
+    "operator-linebreak": ["off"],
+    "no-useless-escape": ["warn"]
   }
 };

@@ -45,3 +45,11 @@ process.on('warning', m => {
     type: 'warning'
   });
 });
+
+process.on('exit', () => {
+  console.log('exit');
+  process.send({
+    message: m,
+    type: 'exit'
+  });
+})

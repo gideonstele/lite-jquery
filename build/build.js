@@ -8,6 +8,7 @@ const eslint = require('rollup-plugin-eslint');
 
 const pkg = require('../package.json');
 const config = require('./config');
+const NODE_ENV = process.env.NODE_ENV;
 
 const builds = {
   'lite.umd': {
@@ -17,11 +18,11 @@ const builds = {
     format: 'iife',
     external: config.external
   },
-  'lite.esm': {
+  'lite.cjs': {
     entry: path.resolve(config.src, 'index.js'),
     env: config.env,
-    dest: path.resolve(config.dest, 'lite.esm.js'),
-    format: 'es',
+    dest: path.resolve(config.dest, 'lite.cjs.js'),
+    format: 'cjs',
     external: config.external
   },
 };
@@ -47,7 +48,7 @@ function generateAllRollupConfig(name) {
         }
       }),
       cjs({}),
-      uglify()
+      uglify.uglify()
     ]
   };
   if (NODE_ENV) {
@@ -74,5 +75,5 @@ function generateAllRollupConfig(name) {
 
 module.exports = {
   generateAllRollupConfig,
-  getAllBuilds: () => Object.keys(builds).map(genConfig)
+  getAllBuilds: () => Object.keys(builds).map(generateAllRollupConfig)
 };
