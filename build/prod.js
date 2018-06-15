@@ -25,6 +25,7 @@ const callback = (data, proc) => {
     case 'end':
     case 'exit':
       console.log(timeLine(), ' 🎁 🎁 🎁 ', chalk.green(data.message));
+      process.exit();
       break;
     default:
       console.log(timeLine(), '          ', chalk.blue(data.message));

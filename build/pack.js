@@ -30,6 +30,7 @@ Promise.all(build()).then(res => {
     message: 'success',
     type: 'end'
   });
+  process.exit(-1);
 });
 
 process.on('message', m => {
@@ -46,8 +47,7 @@ process.on('warning', m => {
   });
 });
 
-process.on('exit', () => {
-  console.log('exit');
+process.on('exit', m => {
   process.send({
     message: m,
     type: 'exit'
