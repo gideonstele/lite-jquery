@@ -78,7 +78,7 @@ export default function parseHTML(html) {
     el.innerHTML = html;
     return el.removeChild(el.lastChild);
   }
-  const wrap = map[tag];
+  const wrap = map[tag] || map._default;
   let depth = wrap[0];
   const prefix = wrap[1];
   const suffix = wrap[2];

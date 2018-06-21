@@ -1,14 +1,17 @@
-import {
-  doc,
-  quickExpr
-} from './config/const';
+/**
+ * @module Core
+ */
+
+import { doc, quickExpr } from './config/const';
+import { getExpando } from './config/var';
 import ys from './tools/ys';
-import {
-  trimLeft
-} from './tools/string';
+import { trimLeft } from './tools/string';
 import parseHTML from './lib/parseHTML';
+import { qsa, matchSelector, contains } from './lib/qsa';
+import { closest } from './lib/selector';
 import { removeAttr, attr, prop, hasAttr, value } from './lib/attributes';
-import { on, off } from './lib/events';
+import { on, one, off } from './jquery/events';
+
 function isHTML(str) {
   // Faster than running regex, if str starts with `<` and ends with `>`, assume it's HTML
   if (str.charAt(0) === '<' && str.charAt(str.length - 1) === '>' && str.length >= 3) return true;
@@ -56,20 +59,105 @@ List.fn.prop = prop;
 List.fn.val = value;
 
 // add dom operator
-List.fn.closest = List.fn.parent = function (selector, scope = doc.documentElement) {
-  let el = this[0];
-  while (el && el !== scope) {
-    if (dom.match(el, selector)) {
-      return el;
+List.fn.closest = List.fn.parent = closest;
+
+/**
+ * @name on
+ * @param {string, object} event
+ * @param {string} [selector]
+ * @param {function} [fn]
+ * @param {object} [options]
+ */
+List.fn.on = function (event, selector, fn, options) {
+
+  /**
+   * @description Event can be a map of types/handlers
+   * @argument event = { type1: fn1, type2: fn2 }
+   * @argument selector = fn || selector
+   * @argument options = fn || options
+   */
+  if (ys.obj(event)) {
+
+    // ( types-Object, selector, options)
+    if (ys.str(selector)) {
+      options = fn;
     }
-    el = el.parentNode;
+
+    if (ys.obj(selector)) {
+      options = selector;
+      selector = undefined;
+    }
+
+    fn = undefined;
+
+    for (let name in event) {
+      on(this, name, selector, event[name], options);
+    }
+
+    return this;
   }
-  return dom.match(el, selector) ? el : null;
+
+  /**
+   * @argument {string} event
+   * @argument {string} [selector]
+   * @argument {function} fn
+   */
+  if (!ys.str(selector)) {
+    options = fn;
+    fn = selector;
+    selector = undefined;
+  }
+  on(this, event, selector, fn, options);
+  return this;
 };
 
-// events
-List.fn.on = on;
-List.fn.off = off;
+List.fn.one = List.fn.once = function (event, selector, fn, options) {
+  /**
+   * @description Event can be a map of types/handlers
+   * @argument event = { type1: fn1, type2: fn2 }
+   * @argument selector = fn || selector
+   * @argument options = fn || options
+   */
+  if (ys.obj(event)) {
+
+    // ( types-Object, selector, options)
+    if (ys.str(selector)) {
+      options = fn;
+    }
+
+    if (ys.obj(selector)) {
+      options = selector;
+      selector = undefined;
+    }
+
+    fn = undefined;
+
+    for (let name in event) {
+      one(this, name, selector, event[name], options);
+    }
+
+    return this;
+  }
+
+  /**
+   * @argument {string} event
+   * @argument {string} [selector]
+   * @argument {function} fn
+   */
+  if (!ys.str(selector)) {
+    options = fn;
+    fn = selector;
+    selector = undefined;
+  }
+
+  one(this, event, selector, fn, options);
+  return this;
+};
+
+List.fn.off = function (event, selector, fn) {
+  off(this, event, selector, fn);
+  return this;
+};
 
 
 /**
@@ -119,36 +207,19 @@ dom.List = List;
 
 dom.isHTML = isHTML;
 
+dom.expando = List.expando = getExpando();
+
+dom.contains = contains;
 /**
  * @description 根据选择符查询dom集合
  * @override 可由第三方重写覆盖
  */
-dom.query = dom.qsa = function (selector, el = doc) {
-  return el.querySelectorAll(selector);
-};
-
-const matches = Element.prototype.matches
-  || Element.prototype.webkitMatchesSelector
-  || Element.prototype.mozMatchesSelector
-  || Element.prototype.msMatchesSelector
-  || Element.prototype.oMatchesSelector;
+dom.query = dom.qsa = qsa;
 
 /**
  * @description 检测给定的元素是否匹配给定的选择符
  * @override 可由第三方重写覆盖
  */
-dom.match = dom.matches = dom.matchSelector = function (el, selector) {
-  if (!el || el.nodeType !== 1) {
-    return false;
-  }
-  if (matches) {
-    return matches.call(el, selector);
-  }
-  const nodes = dom.qsa(selector, el.parentNode);
-  for (let i = 0; i < nodes.length; ++i) {
-    if (nodes[i] === el) return true;
-  }
-  return false;
-};
+dom.match = dom.matches = dom.matchSelector = matchSelector;
 
 export default dom;

@@ -8,7 +8,8 @@ import {
   isArray,
   isEmpty,
   isObject,
-  isPlainObject
+  isPlainObject,
+  isBoolean
 } from 'lodash-es';
 import { loc } from '../config/const';
 
@@ -17,6 +18,7 @@ const ys = {
   plainObject: isPlainObject,
   array: isArray,
   func: isFunction,
+  bool: isBoolean,
   empty: isEmpty,
   err: isError,
   arguments(val) {
