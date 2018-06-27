@@ -1,4 +1,18 @@
 # lite-jquery
+
+[![GitHub license](https://img.shields.io/github/license/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/blob/master/LICENSE)
+
+
+[![GitHub forks](https://img.shields.io/github/forks/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/network)
+
+
+[![GitHub stars](https://img.shields.io/github/stars/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/stargazers)
+
+
+[![GitHub issues](https://img.shields.io/github/issues/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/issues)
+
+
+----
 A jQuery-like library, but pure.
 
 ### 说明
