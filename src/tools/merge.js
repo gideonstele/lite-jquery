@@ -1,3 +1,5 @@
+import ys from "./ys";
+
 /**
  * @private
  * @function merge
@@ -20,4 +22,18 @@ export default function merge(first, second) {
   first.length = i;
 
   return first;
+}
+
+export function makeArray(arr, results = []) {
+  if (arr !== null) {
+    // The window, strings (and functions) also have 'length'
+    // Tweaked logic slightly to handle Blackberry 4.7 RegExp issues #6930
+    if (arr.length === null || ys.str(arr) || ys.func(arr) || ys.regExp(arr) || ys.window(arr)) {
+      results.push(arr);
+    } else {
+      merge(results, arr);
+    }
+  }
+
+  return results;
 }

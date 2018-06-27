@@ -11,7 +11,7 @@ import parseHTML from './lib/parseHTML';
 import { qsa, matchSelector, contains } from './lib/qsa';
 import { closest } from './lib/selector';
 import { removeAttr, attr, prop, hasAttr, value } from './lib/attributes';
-import { on, one, off } from './jquery/events';
+import { on, one, off, trigger } from './jquery/events';
 
 function isHTML(str) {
   // Faster than running regex, if str starts with `<` and ends with `>`, assume it's HTML
@@ -221,6 +221,18 @@ List.fn.off = function (event, selector, fn) {
   return this;
 };
 
+List.fn.trigger = function (event, data) {
+  return this.forEach(function () {
+    trigger(event, data, this);
+  });
+};
+
+List.fn.triggerHandler = function (event, data) {
+  const el = this[0];
+  if (el) {
+    return objEvent.trigger(event, data, el, true);
+  }
+};
 
 /**
  * Return a dom `List` for the given

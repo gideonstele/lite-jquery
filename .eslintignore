@@ -1,4 +1,7 @@
-/build/
-/config/
-/dist/
-/*.js
+external
+node_modules
+*.min.js
+/build/**
+/config/**
+/dist/**
+test/**

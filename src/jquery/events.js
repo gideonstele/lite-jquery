@@ -4,11 +4,15 @@ import each from '../tools/each';
 import { qsa, matchSelector, contains } from '../lib/qsa';
 import Data from '../lib/data';
 import { getExpando } from '../config/var';
-import { rtypenamespace, rspace } from '../config/const';
+import { rtypenamespace, rspace, doc } from '../config/const';
+import { makeArray } from '../tools/merge';
 
 const rkeyEvent = /^key/;
 const rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/;
-
+const rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
+const stopPropagationCallback = function (e) {
+  e.stopPropagation();
+};
 // Support: IE <=9 only
 // See #13393 for more info
 function safeActiveElement() {
@@ -465,6 +469,154 @@ LiteEvent.prototype = {
     this.stopPropagation();
   }
 };
+
+/* trigger for event */
+/**
+   * @description trigger
+   * @private
+  */
+export function trigger(event, data, el, onlyHandlers) {
+  const eventPath = [el || doc];
+  const type = event.hasOwnProperty('type') ? event.type : event;
+  let namespaces = event.hasOwnProperty('namespace') ? event.namespace.split('.') : [];
+
+  let lastElement, tmp, cur;
+  cur = lastElement = tmp = el = el || doc;
+
+  // Don't do events on test and commment nodes
+  if (el.nodeType === 3 || el.nodeType === 0) {
+    return;
+  }
+
+  // focus/blur morphs to focusin/out; ensure w're not firing them right noew.
+  if (rfocusMorph.test(objEvent.triggered)) {
+    return;
+  }
+
+  if (type.indexOf('.') > -1) {
+    // Namespaced trigger; create a regexp to match event type in handle()
+    namespaces = type.split('.');
+    type = namespaces.shift();
+    namespaces.sort();
+  }
+
+  let ontype = type.indexOf(':') < 0 && 'on' + type;
+
+  // Caller can pass in a jQuery.Event object, Object, or just an event type string
+  event = event[getExpando()] ? event : new LiteEvent(type, ys.obj(event) && event);
+
+  // Trigger bitmask: & 1 for native handlers; & 2 for jQuery (always true)
+  event.isTrigger = onlyHandlers ? 2 : 3;
+  event.namespace = namespaces.join('.');
+  event.rnamespace = event.namespace ? new RegExp('(^|\\.)' + namespaces.join('\\.()?:.*\\.') + '(\\.|$)') : null;
+
+  // Clean up the event in case it is being reused
+  event.result = undefined;
+  if (!event.target) {
+    event.target = el;
+  }
+
+  // Clone any incoming data and prepend the event, creating the handler arg list
+  // eslint-disable-next-line eqeqeq
+  data = data == null ? [event] : makeArray(data, [event]);
+
+  // Allow special events to draw outside the lines
+  let special = objEvent.special[type] || {};
+  if (!onlyHandlers && special.trigger && special.trigger.apply(el, data) === false) {
+    return;
+  }
+
+  // Determine event propagation path in advance, per W3C events spec (#9951)
+  // Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
+  let bubbleType;
+  if (!onlyHandlers && !special.noBubble && !ys.window(el)) {
+    bubbleType = special.delegateType || type;
+    if (!rfocusMorph.test(bubbleType + type)) {
+      cur = cur.parentNode;
+    }
+    for (; cur; cur = cur.parentNode){
+      eventPath.push(cur);
+      tmp = cur;
+    }
+
+    // Only add window if we got to document (e.g., not plain obj or detached DOM)
+    if (tmp === (el.ownerDocument || doc)) {
+      eventPath.push(tmp.defaultView || tmp.parentWindow || window);
+    }
+  }
+
+  // Fire handlers on the event path
+  let i = 0;
+  while ((cur = eventPath[i++]) && !event.isImmediatePropagationStopped()) {
+    lastElement = cur;
+    event.type = i > 1 ? bubbleType : special.bindType || type;
+
+    // jQuery handler
+    handle = (objEvent.data.get(cur, 'events') || {})[event.type] && objEvent.data.get(cur, 'handle');
+    if (handle) {
+      handle.apply(cur, data);
+    }
+
+    // Native handler
+    handle = ontype && cur[ontype];
+    if (handle && handle.apply && (cur.nodeType === 1 || cur.nodeType === 9)) {
+      event.result = handle.apply(cur, data);
+      if (event.result === false) {
+        event.preventDefault();
+      }
+    }
+  }
+  event.type = type;
+
+  // If nobody prevented the default action, do it now
+  if (!onlyHandlers && !event.isDefaultPrevented()) {
+    if ((!special._default || special._default.apply(eventPath.pop(), data) === false) && (el.nodeType === 1 || el.nodeType === 9)) {
+
+      // Call a native DOM method on the target with the same name as the event.
+      // Don't do default actions on window, that's where global variables be (#6170)
+      if (ontype && ys.func(el[type]) && ys.window(el)) {
+
+        // Don't re-trigger an onFOO event when we call its FOO() method
+        tmp = el[ontype];
+        if (tmp) {
+          el[ontype] = null;
+        }
+
+        // Prevent re-triggering of the same event, since we already bubbled it above
+        objEvent.triggered = type;
+
+        if (event.isPropagationStopped()) {
+          lastElement.addEventListener(type, stopPropagationCallback);
+        }
+
+        el[type]();
+
+        if (event.isPropagationStopped()) {
+          lastElement.removeEventListener(type, stopPropagationCallback);
+        }
+
+        objEvent.triggered = undefined;
+
+        if (tmp) {
+          el[ontype] = tmp;
+        }
+      }
+    }
+  }
+
+  return event.result;
+};
+// Piggyback on a donor event to simulate a different one
+// Used only for `focus(in | out)` events
+export function simulate(type, el, event) {
+  const e = extend(new LiteEvent(), event, {
+    type,
+    isSimulated: true
+  });
+
+  trigger(e, null, el);
+}
+
 
 /**
  * @description 为 Event 原型添加特殊属性或方法

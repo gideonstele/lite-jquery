@@ -8,14 +8,12 @@ const webpackHotMiddleware = require('koa-webpack-hot-middleware')
 const app = new Koa();
 
 const devWebpackConfig = require('./webpack.dev');
-const examplePath = path.resolve(__dirname, '../dist');
 const distPath = path.resolve(__dirname, '../../dist');
 const testPath = path.resolve(__dirname, '../../test');
 
 const complier = webpack(devWebpackConfig);
 
 app.use(bodyParser());
-app.use(static(examplePath));
 app.use(static(distPath));
 app.use(static(testPath));
 
@@ -30,7 +28,7 @@ app.use(webpackDevMiddleware(complier, {
   quiet: false,
   aggregateTimeout: 300,
   publicPath: "/",
-  open: 'http://localhost:3000/demo-1.html',
+  open: 'http://localhost:3000/test-unit.html',
   stats: {
     colors: true
   }

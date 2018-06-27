@@ -36,6 +36,9 @@ const ys = {
   element(val) {
     return val.nodeType === 1;
   },
+  window(val) {
+    return val !== bull && val === val.window;
+  },
   isBuffer(obj) {
     return !!(obj != null &&
       (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
