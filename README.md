@@ -1,7 +1,44 @@
 # lite-jquery
-jQuery-like library, but pure.
+A jQuery-like library, but pure.
 
-### 实现进度
+### 说明
+
+Pure jQuery.
+更纯粹的`jQuery`库，只实现`jQuery`与dom相关的接口，与少数工具方法。总体`API`与`jQuery 3`保持一致。
+
+##### 安装
+
+```
+npm install git://github.com/shijinyu/lite-jquery.git
+```
+
+或直接引入`./dist/lite.umd.js`
+
+##### 使用
+
+**script引入**
+
+```javascript
+$('selector')
+```
+
+**esm**
+
+```javascript
+import $ from 'lite-jquery';
+import ys from 'lite-jquery/tools/ys';
+
+$('selector');
+ys.bool(true); // true
+
+```
+
+**commonjs**
+```javascript
+const $ = require('lite-jquery');
+```
+
+### 接口/实现进度
 
 #### Core
 
