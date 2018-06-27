@@ -5,6 +5,7 @@
 import { doc, quickExpr } from './config/const';
 import { getExpando } from './config/var';
 import ys from './tools/ys';
+import merge from './tools/merge';
 import { trimLeft } from './tools/string';
 import parseHTML from './lib/parseHTML';
 import { qsa, matchSelector, contains } from './lib/qsa';
@@ -37,7 +38,11 @@ function List(els = [], selector) {
 }
 List.fn = List.prototype;
 List.fn.length = 0;
+List.fn.toArray = function () {
+  return Array.prototype.slice.call(this);
+};
 List.fn.splice = Array.prototype.splice;
+List.fn.push = Array.prototype.push;
 List.fn.forEach = List.fn.each = function (callback) {
   const l = this.length;
   let t;
@@ -57,6 +62,63 @@ List.fn.hasAttr = hasAttr;
 List.fn.attr = attr;
 List.fn.prop = prop;
 List.fn.val = value;
+
+List.fn.is = function (selector, element) {
+  element = element || this[0];
+  if (element && element.nodeType) {
+    return element === selector ?
+      true :
+      typeof selector === 'string' && matchSelector(element, selector);
+  }
+};
+
+List.fn.pushStack = function (els) {
+  let ret = merge(List([], this.selector), els);
+  return ret;
+};
+
+List.fn.eq = function (i) {
+  const len = this.length;
+  let j = i + (i < 0 ? len : 0);
+  return this.pushStack(j>=0 && j < len ? [this[j]] : []);
+};
+
+List.fn.first = function () {
+  return this.eq(0);
+};
+
+List.fn.last = function () {
+  return this.length ? this.eq(this.length - 1) : new this.constructor();
+};
+
+/* classes */
+List.fn.addClass = function (className) {
+  if (!name) {
+    return this;
+  }
+  return this.forEach(function () {
+    this.classList.add(className);
+  });
+};
+
+List.fn.removeClass = function (className) {
+  return this.forEach(function () {
+    this.classList.remove(className);
+  });
+};
+
+List.fn.toggleClass = function (className) {
+  return this.forEach(function () {
+    this.classList.toggle(className);
+  });
+};
+
+List.fn.hasClass = function (className) {
+  if (this[0]) {
+    return this[0].classList.contains(className);
+  }
+  return false;
+}
 
 // add dom operator
 List.fn.closest = List.fn.parent = closest;
@@ -170,6 +232,11 @@ List.fn.off = function (event, selector, fn) {
  * @api public
  */
 function dom(selector, context = doc) {
+
+  // ready function
+  if (ys.func(selector)) {
+    return dom.ready(selector);
+  }
   // array like
   if (ys.array(selector)) {
     return new List(selector);
@@ -200,6 +267,26 @@ function dom(selector, context = doc) {
 
   return new List(dom.qsa(selector, _context), selector);
 }
+
+dom.ready = function (fn) {
+  const fns = [],
+    hack = doc && doc.documentElement.doScroll,
+    domContentLoaded = 'DOMContentLoaded';
+  let listener;
+  let loaded =
+    doc && (hack ? /^loaded|^c/ : /^loaded|^i|^c/).test(doc.readyState);
+  if (!loaded && doc) {
+    doc.addEventListener(
+      domContentLoaded,
+      (listener = function () {
+        doc.removeEventListener(domContentLoaded, listener);
+        loaded = 1;
+        while ((listener = fns.shift())) listener();
+      })
+    );
+  }
+  return loaded ? setTimeout(fn, 0) : fns.push(fn);
+};
 
 dom.fn = List.fn;
 

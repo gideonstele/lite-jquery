@@ -1,5 +1,9 @@
 import ys from './ys';
 
+/**
+ * @private
+ * @function extend
+ */
 export default function extend() {
   let options, name, src, copy, copyIsArray, clone;
   let target = arguments[0];
@@ -8,13 +12,13 @@ export default function extend() {
   let deep = false;
 
   // Handle a deep copy situation
-  if (typeof target === 'boolean') {
+  if (ys.bool(target)) {
     deep = target;
     target = arguments[1] || {};
     // skip the boolean and the target
     i = 2;
   }
-  if (target == null || (typeof target !== 'object' && typeof target !== 'function')) {
+  if (target == null || (ys.obj(target) && ys.func(target))) {
     target = {};
   }
 

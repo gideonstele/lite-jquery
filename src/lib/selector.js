@@ -14,3 +14,7 @@ export function closest(selector, scope = doc.documentElement) {
   }
   return matchSelector(el, selector) ? el : null;
 };
+
+export function find(selector) {
+  return;
+}
