@@ -37,6 +37,7 @@ module.exports = {
     "space-before-blocks": ["off"],
     "padded-blocks": ["off"],
     "operator-linebreak": ["off"],
-    "no-useless-escape": ["warn"]
+    "no-useless-escape": ["warn"],
+    "no-mixed-operators": ["off"]
   }
 };

@@ -1,4 +1,4 @@
-import ys from "./ys";
+import ys from './ys';
 
 /**
  * @private
@@ -13,6 +13,7 @@ export default function merge(first, second) {
   }
   // Support: IE<9
   // Workaround casting of .length to NaN on otherwise arraylike objects (e.g., NodeLists)
+  // eslint-disable-next-line no-self-compare
   if (len !== len) {
     while (second[j] !== undefined) {
       first[i++] = second[j++];

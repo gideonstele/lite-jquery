@@ -1,11 +1,23 @@
 import extend from '../tools/extend';
 import ys from '../tools/ys';
 import each from '../tools/each';
-import { qsa, matchSelector, contains } from '../lib/qsa';
+import {
+  qsa,
+  matchSelector,
+  contains
+} from '../lib/qsa';
 import Data from '../lib/data';
-import { getExpando } from '../config/var';
-import { rtypenamespace, rspace, doc } from '../config/const';
-import { makeArray } from '../tools/merge';
+import {
+  getExpando
+} from '../config/var';
+import {
+  rtypenamespace,
+  rspace,
+  doc
+} from '../config/const';
+import {
+  makeArray
+} from '../tools/merge';
 
 const rkeyEvent = /^key/;
 const rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/;
@@ -16,9 +28,9 @@ const stopPropagationCallback = function (e) {
 // Support: IE <=9 only
 // See #13393 for more info
 function safeActiveElement() {
-	try {
-		return document.activeElement;
-	} catch ( err ) { }
+  try {
+    return document.activeElement;
+  } catch (err) {}
 }
 
 let guid = 1;
@@ -48,25 +60,25 @@ const objEvent = {
 
       // Fire native event if possible so blur/focus sequence is correct
       trigger() {
-        if ( this !== safeActiveElement() && this.focus ) {
-					this.focus();
-					return false;
-				}
+        if (this !== safeActiveElement() && this.focus) {
+          this.focus();
+          return false;
+        }
       }
     },
     blur: {
       delegateType: 'focusout',
       trigger() {
-				if ( this === safeActiveElement() && this.blur ) {
-					this.blur();
-					return false;
-				}
-			}
+        if (this === safeActiveElement() && this.blur) {
+          this.blur();
+          return false;
+        }
+      }
     },
     click: {
       // For checkbox, fire native event so checked state will be right
       trigger() {
-        if (this.type === "checkbox" && this.click && nodeName(this, "input")) {
+        if (this.type === 'checkbox' && this.click && nodeName(this, 'input')) {
           this.click();
           return false;
         }
@@ -80,9 +92,9 @@ const objEvent = {
       postDispatch(event) {
         // Support: Firefox 20+
         // Firefox doesn't alert if the returnValue field is not set.
-        if ( event.result !== undefined && event.originalEvent ) {
-					event.originalEvent.returnValue = event.result;
-				}
+        if (event.result !== undefined && event.originalEvent) {
+          event.originalEvent.returnValue = event.result;
+        }
       }
     }
   },
@@ -117,22 +129,22 @@ const objEvent = {
     }
 
     // Init the element's event structure and main handler, if this is the first
-    if (!( events = elData.events)) {
-			events = elData.events = {};
+    if (!(events = elData.events)) {
+      events = elData.events = {};
     }
 
     if (!(eventHandle = elData.handle)) {
       eventHandle = elData.handle = function (e) {
 
-				// Discard the second event of a objEvent.trigger() and
-				// when an event is called after a page has unloaded
-				return objEvent.triggered !== e.type ?
-        objEvent.dispatch.apply(el, arguments) : undefined;
-			};
+        // Discard the second event of a objEvent.trigger() and
+        // when an event is called after a page has unloaded
+        return objEvent.triggered !== e.type ?
+          objEvent.dispatch.apply(el, arguments) : undefined;
+      };
     }
 
     // Handle multiple events separated by a space
-		types = (types || '').match(rspace) || [''];
+    types = (types || '').match(rspace) || [''];
     let t = types.length;
     while (t--) {
       tmp = rtypenamespace.exec(types[t]) || [];
@@ -141,7 +153,7 @@ const objEvent = {
 
       // There *must* be a type, no attaching namespace-only handlers
       if (!type) {
-				continue;
+        continue;
       }
 
       // If event changes its type, use the special event handlers for the changed type
@@ -155,13 +167,13 @@ const objEvent = {
 
       // handleObj is passed to all event handlers
       const handleObj = extend(true, {
-				type: type,
-				origType: origType,
-				data: data,
-				handler,
-				guid: handler.guid,
-				selector: selector,
-				namespace: namespaces.join( "." )
+        type: type,
+        origType: origType,
+        data: data,
+        handler,
+        guid: handler.guid,
+        selector: selector,
+        namespace: namespaces.join('.')
       }, handleObjIn);
 
       // Init the event handler queue if we're the first
@@ -181,7 +193,7 @@ const objEvent = {
         special.add.call(el, handleObj);
 
         if (!handleObj.handler.guid) {
-          handleObj.handler.guid = handler.guid;;
+          handleObj.handler.guid = handler.guid;
         }
       }
 
@@ -224,7 +236,7 @@ const objEvent = {
       event.currentTarget = matched.el;
 
       let j = 0;
-      while(( handleObj = matched.handlers[j++] ) && !event.isImmediatePropagationStopped()) {
+      while ((handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped()) {
         // Triggered event must either 1) have no namespace, or 2) have namespace(s)
         // a subset or equal to those in the bound event (both can have no namespace).
         if (!event.rnamespace || event.rnamespace.test(handleObj.namespace)) {
@@ -244,11 +256,11 @@ const objEvent = {
     }
 
     // Call the postDispatch hook for the mapped type
-		if ( special.postDispatch ) {
-			special.postDispatch.call( this, event );
-		}
+    if (special.postDispatch) {
+      special.postDispatch.call(this, event);
+    }
 
-		return event.result;
+    return event.result;
 
   },
   handlers(event, handlers) {
@@ -266,11 +278,11 @@ const objEvent = {
     // Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
     // https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
     // Support: IE 11 only
-    // ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
+    // ...but not arrow key 'clicks' of radio inputs, which can have `button` -1 (gh-2343)
 
     if (delegateCount && cur.nodeType && !(event.type === 'click' && event.button >= 1)) {
 
-      for (; cur !== this; cur = cur.parentNode || this){
+      for (; cur !== this; cur = cur.parentNode || this) {
 
         // Don't check non-elements (#13208)
         // Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
@@ -301,7 +313,10 @@ const objEvent = {
             }
           }
           if (matchedHandlers.length) {
-            handlerQueue.push( { el: cur, handlers: matchedHandlers } );
+            handlerQueue.push({
+              el: cur,
+              handlers: matchedHandlers
+            });
           }
 
         }
@@ -311,7 +326,7 @@ const objEvent = {
 
     // Add the remaining (directly-bound) handlers
     cur = this;
-    if ( delegateCount < handlers.length ) {
+    if (delegateCount < handlers.length) {
       handlerQueue.push({
         el: cur,
         handlers: handlers.slice(delegateCount)
@@ -347,12 +362,12 @@ const objEvent = {
 
       let special = objEvent.special[type] || {};
       type = (selector ? special.delegateType : special.bindType) || type;
-      handlers = events[type] || [];
+      let handlers = events[type] || [];
       tmp = tmp[2] && new RegExp(`(^|\\.)${namespaces.join('\\.(?:.*\\.|)')}(\\.|$)`);
 
       // Remove matching events
       let j;
-      const originCount = j = handlers.length;
+      const originCount = handlers.length;
       while (j--) {
         let handleObj = handlers[j];
 
@@ -373,7 +388,7 @@ const objEvent = {
 
       // Remove generic event handler if we removed something and no more handlers exist
       // (avoids potential for endless recursion during removal of special event handlers)
-      if (origCount && !handlers.length) {
+      if (originCount && !handlers.length) {
         if (!special.teardown || special.teardown.call(el, namespaces, elData.handle) === false) {
           removeLiteEvent(el, type, elData.handle);
         }
@@ -409,7 +424,7 @@ export function LiteEvent(src, props) {
       src.returnValue === false ? returnTrue : returnFalse;
 
     // Create target properties
-		// Support: Safari <=6 - 7 only
+    // Support: Safari <=6 - 7 only
     // Target should not be a text node
     this.target = (src.target && src.target.nodeType === 3) ? src.target.parentNode : src.target;
     this.currentTarget = src.currentTarget;
@@ -432,10 +447,10 @@ export function LiteEvent(src, props) {
 }
 
 export function removeLiteEvent(el, type, handle) {
-  // This "if" is needed for plain objects
-	if ( el.removeEventListener ) {
-		el.removeEventListener( type, handle );
-	}
+  // This 'if' is needed for plain objects
+  if (el.removeEventListener) {
+    el.removeEventListener(type, handle);
+  }
 }
 
 LiteEvent.prototype = {
@@ -472,12 +487,12 @@ LiteEvent.prototype = {
 
 /* trigger for event */
 /**
-   * @description trigger
-   * @private
-  */
+ * @description trigger
+ * @private
+ */
 export function trigger(event, data, el, onlyHandlers) {
   const eventPath = [el || doc];
-  const type = event.hasOwnProperty('type') ? event.type : event;
+  let type = event.hasOwnProperty('type') ? event.type : event;
   let namespaces = event.hasOwnProperty('namespace') ? event.namespace.split('.') : [];
 
   let lastElement, tmp, cur;
@@ -534,7 +549,7 @@ export function trigger(event, data, el, onlyHandlers) {
     if (!rfocusMorph.test(bubbleType + type)) {
       cur = cur.parentNode;
     }
-    for (; cur; cur = cur.parentNode){
+    for (; cur; cur = cur.parentNode) {
       eventPath.push(cur);
       tmp = cur;
     }
@@ -552,7 +567,7 @@ export function trigger(event, data, el, onlyHandlers) {
     event.type = i > 1 ? bubbleType : special.bindType || type;
 
     // jQuery handler
-    handle = (objEvent.data.get(cur, 'events') || {})[event.type] && objEvent.data.get(cur, 'handle');
+    let handle = (objEvent.data.get(cur, 'events') || {})[event.type] && objEvent.data.get(cur, 'handle');
     if (handle) {
       handle.apply(cur, data);
     }
@@ -716,7 +731,7 @@ each({
   objEvent.special[orig] = {
     delegateType: fix,
     bindType: fix,
-    handle (event) {
+    handle(event) {
       const target = this;
       const related = event.relatedTarget;
       const handleObj = event.handleObj;
@@ -767,7 +782,7 @@ export function one(els, event, selector, fn, options) {
   };
 
   // Use same guid so caller can remove using origFn
-  fn.guid = origFn.guid || (origFn.guid = jQuery.guid++);
+  fn.guid = origFn.guid || (origFn.guid = guid++);
 
   return els.each(function () {
     const el = this;
@@ -786,12 +801,12 @@ export function off(self, types, selector, fn) {
     off(
       tmpList,
       handleObj.namespace ?
-      handleObj.origType + "." + handleObj.namespace :
+      handleObj.origType + '.' + handleObj.namespace :
       handleObj.origType,
       handleObj.selector,
       handleObj.handler
     );
-    return ;
+    return;
   }
   if (ys.obj(event)) {
 

@@ -1,4 +1,4 @@
-import { doc } from "../config/const";
+import { doc } from '../config/const';
 
 const matches = Element.prototype.matches ||
   Element.prototype.webkitMatchesSelector ||
@@ -17,7 +17,7 @@ export function matchSelector(el, selector) {
   if (matches) {
     return matches.call(el, selector);
   }
-  const nodes = dom.qsa(selector, el.parentNode);
+  const nodes = qsa(selector, el.parentNode);
   for (let i = 0; i < nodes.length; ++i) {
     if (nodes[i] === el) return true;
   }

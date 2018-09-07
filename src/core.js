@@ -80,7 +80,7 @@ List.fn.pushStack = function (els) {
 List.fn.eq = function (i) {
   const len = this.length;
   let j = i + (i < 0 ? len : 0);
-  return this.pushStack(j>=0 && j < len ? [this[j]] : []);
+  return this.pushStack(j >= 0 && j < len ? [this[j]] : []);
 };
 
 List.fn.first = function () {
@@ -118,7 +118,7 @@ List.fn.hasClass = function (className) {
     return this[0].classList.contains(className);
   }
   return false;
-}
+};
 
 // add dom operator
 List.fn.closest = List.fn.parent = closest;
@@ -225,13 +225,6 @@ List.fn.trigger = function (event, data) {
   return this.forEach(function () {
     trigger(event, data, this);
   });
-};
-
-List.fn.triggerHandler = function (event, data) {
-  const el = this[0];
-  if (el) {
-    return objEvent.trigger(event, data, el, true);
-  }
 };
 
 /**

@@ -1,4 +1,6 @@
-import { getExpando } from '../config/var';
+import {
+  getExpando
+} from '../config/var';
 import ys from '../tools/ys';
 
 /**
@@ -6,9 +8,9 @@ import ys from '../tools/ys';
  */
 function acceptData(owner) {
   // Accepts only:
-	//  - Node
-	//    - Node.ELEMENT_NODE
-	//    - Node.DOCUMENT_NODE
+  //  - Node
+  //    - Node.ELEMENT_NODE
+  //    - Node.DOCUMENT_NODE
   return owner.nodeType === 1 || owner.nodeType === 9;
 }
 
@@ -103,7 +105,7 @@ Data.prototype = {
         // If key is an array of keys...
         // We always set camelCase keys, so remove that.
 
-        key = key in cache ? [key] : [key.match(/[^\x20\t\r\n\f]+/g)]
+        key = key in cache ? [key] : [key.match(/[^\x20\t\r\n\f]+/g)];
       }
 
       let i = key.length;

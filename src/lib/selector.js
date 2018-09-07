@@ -14,7 +14,8 @@ export function closest(selector, scope = doc.documentElement) {
   }
   return matchSelector(el, selector) ? el : null;
 };
-
+/* eslint-disable no-useless-return */
 export function find(selector) {
   return;
 }
+/* eslint-enable */

@@ -37,7 +37,7 @@ const ys = {
     return val.nodeType === 1;
   },
   window(val) {
-    return val !== bull && val === val.window;
+    return val !== null && val === val.window;
   },
   isBuffer(obj) {
     return !!(obj != null &&
