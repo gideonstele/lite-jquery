@@ -11,6 +11,7 @@ import parseHTML from './lib/parseHTML';
 import { qsa, matchSelector, contains } from './lib/qsa';
 import { closest } from './lib/selector';
 import { removeAttr, attr, prop, hasAttr, value } from './lib/attributes';
+import { domys } from './jquery/findFilter';
 import { on, one, off, trigger } from './jquery/events';
 
 function isHTML(str) {
@@ -63,7 +64,7 @@ List.fn.attr = attr;
 List.fn.prop = prop;
 List.fn.val = value;
 
-List.fn.is = function (selector, element) {
+List.fn.is = domys || function (selector, element) {
   element = element || this[0];
   if (element && element.nodeType) {
     return element === selector ?

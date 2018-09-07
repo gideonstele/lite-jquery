@@ -24,6 +24,15 @@ export function matchSelector(el, selector) {
   return false;
 };
 
+export function matchSelectors(els, selector) {
+  return Array.prototype.reduce.call(els, function(reducer, el, index) {
+    if (matchSelector(el, selector)) {
+      reducer.push(el);
+    }
+    return reducer;
+  }, []);
+}
+
 export function contains(target, el) {
   const adown = target.nodeType === 9 ? target.documentElement : target;
   const bup = el && el.parentNode;
