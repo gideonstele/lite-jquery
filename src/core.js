@@ -2,17 +2,44 @@
  * @module Core
  */
 
-import { doc, quickExpr } from './config/const';
-import { getExpando } from './config/var';
+import {
+  doc,
+  quickExpr,
+  rneedsContext
+} from './config/const';
+import {
+  getExpando
+} from './config/var';
 import ys from './tools/ys';
 import merge from './tools/merge';
-import { trimLeft } from './tools/string';
+import {
+  trimLeft
+} from './tools/string';
 import parseHTML from './lib/parseHTML';
-import { qsa, matchSelector, contains } from './lib/qsa';
-import { closest } from './lib/selector';
-import { removeAttr, attr, prop, hasAttr, value } from './lib/attributes';
-import { domys } from './jquery/findFilter';
-import { on, one, off, trigger } from './jquery/events';
+import {
+  qsa,
+  matchSelector,
+  contains
+} from './lib/qsa';
+import {
+  closest
+} from './lib/selector';
+import {
+  removeAttr,
+  attr,
+  prop,
+  hasAttr,
+  value
+} from './lib/attributes';
+import {
+  winnow
+} from './jquery/findFilter';
+import {
+  on,
+  one,
+  off,
+  trigger
+} from './jquery/events';
 
 function isHTML(str) {
   // Faster than running regex, if str starts with `<` and ends with `>`, assume it's HTML
@@ -64,7 +91,22 @@ List.fn.attr = attr;
 List.fn.prop = prop;
 List.fn.val = value;
 
-List.fn.is = domys || function (selector, element) {
+List.fn.pushStack = function (els) {
+  let ret = merge(this, els);
+  return ret;
+};
+
+List.fn.is = function domys(selector) {
+  return !!winnow(this,
+    // If this is a positional/relative selector, check membership in the returned set
+    // so $("p:first").is("p:last") won't return true for a doc with two "p".
+    typeof selector === 'string' && rneedsContext.test(selector) ?
+    dom(selector) :
+    selector || [],
+    false).length;
+};
+/*
+function is (selector, element) {
   element = element || this[0];
   if (element && element.nodeType) {
     return element === selector ?
@@ -72,10 +114,40 @@ List.fn.is = domys || function (selector, element) {
       typeof selector === 'string' && matchSelector(element, selector);
   }
 };
+*/
 
-List.fn.pushStack = function (els) {
-  let ret = merge(List([], this.selector), els);
-  return ret;
+List.fn.not = function (selector) {
+  return winnow(this, selector || [], true);
+};
+
+List.fn.filter = function (selector) {
+  return winnow(this, selector || [], false);
+};
+
+List.fn.find = function (selector) {
+  const len = this.length;
+  if (selector && ys.str(selector)) {
+    const ret = [];
+    this.forEach(function() {
+      List.call(ret, qsa(selector, this), selector);
+    });
+    return new List(ret, selector);
+  }
+  if (selector && !ys.str(selector)) {
+    const self = this;
+    return this.pushStack(dom(selector).filter(function() {
+      for (let i = 0; i < len; i++) {
+        if (contains(self[i], this)) {
+          return true;
+        }
+      }
+    }));
+  }
+  return this;
+};
+
+List.fn.has = function (selector) {
+
 };
 
 List.fn.eq = function (i) {

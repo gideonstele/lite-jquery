@@ -86,11 +86,12 @@ const $ = require('lite-jquery');
    * ❌ parent
    * ❌ parents
  - 过滤
+   * ✅ filter
    * ✅ eq
    * ✅ first
    * ✅ last
    * ✅ is
-   * ❌ not
+   * ✅ not
    * ❌ slice
    * ❌ has
    * ✅ map
@@ -130,7 +131,7 @@ const $ = require('lite-jquery');
  - ✅ on(eventsObject|event[, selector], fn, options{data, capture})
  - ✅ off(event[, selector], fn)
  - ✅ one
- - ❌ trigger
+ - ✅ trigger
 
 **事件对象**
 
