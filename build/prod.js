@@ -20,7 +20,7 @@ const callback = (data, proc) => {
       console.log(timeLine(), ' 🎲 🎲 🎲 ', chalk.bold.blue(data.message));
       break;
     case 'warning':
-      console.log(timeLine(), ' ❗️ ❗️ ❗️ ', chalk.bold.yellow(data.message));
+      console.log(timeLine(), ' ❗️ ❗️ ❗️ ', chalk.bold.yellow(JSON.stringify(data.message)));
       break;
     case 'end':
     case 'exit':

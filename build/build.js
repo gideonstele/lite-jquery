@@ -4,6 +4,7 @@ const replace = require('rollup-plugin-replace');
 const resolve = require('rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
 const uglify = require('rollup-plugin-uglify');
+const uglify_es = require('rollup-plugin-uglify-es');
 const eslint = require('rollup-plugin-eslint');
 
 const pkg = require('../package.json');
@@ -23,6 +24,13 @@ const builds = {
     env: config.env,
     dest: path.resolve(config.dest, 'lite.cjs.js'),
     format: 'cjs',
+    external: config.external
+  },
+  'lite.esm': {
+    entry: path.resolve(config.src, 'index.esm.js'),
+    env: config.env,
+    dest: path.resolve(config.dest, 'lite.esm.js'),
+    format: 'es',
     external: config.external
   },
 };
@@ -48,7 +56,7 @@ function generateAllRollupConfig(name) {
         }
       }),
       cjs({}),
-      uglify.uglify()
+      name === 'lite.esm' ? uglify_es() : uglify.uglify()
     ]
   };
   if (NODE_ENV) {
