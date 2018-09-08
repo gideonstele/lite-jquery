@@ -74,6 +74,13 @@ List.fn.toArray = function () {
   return Array.prototype.slice.call(this);
 };
 List.fn.splice = Array.prototype.splice;
+List.fn.slice = function() {
+  return this.pushStack(
+    Array.prototype.slice.apply(this, arguments),
+    'slice',
+    Array.prototype.slice.call(arguments).join(',')
+    );
+};
 List.fn.push = Array.prototype.push;
 List.fn.forEach = List.fn.each = function (callback) {
   const l = this.length;

@@ -88,7 +88,8 @@ export function uniqueSort(results) {
     j = 0,
     el;
   hasDuplicate = false;
-  sortInput = !sortStable && results.slice(0);
+  sortInput = !sortStable && (
+    results.slice ? results.slice(results, 0) : Array.prototype.slice.call(results, 0));
 
   Array.prototype.sort.call(results, sortOrder);
 

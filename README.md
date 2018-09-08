@@ -105,7 +105,7 @@ const $ = require('lite-jquery');
    * ✅ last
    * ❎ is
    * ❎ not
-   * ❌ slice
+   * ❎ slice
    * ❎ has
    * ✅ map
  - 串联
