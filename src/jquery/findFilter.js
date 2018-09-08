@@ -15,13 +15,13 @@ import {
  * @callback https://github.com/jquery/jquery/blob/f997241f0011ed728be71002bc703c7a0d3f01e5/src/traversing/findFilter.js#L12
  * @param {ArrayLike<Element>} els
  * @param {Function, Element, ArrayLike<Element>} qualifier
- * @param {*} not
+ * @param {Boolean} not
  * @returns
  */
 export function winnow(els, qualifier, not) {
   if (ys.func(qualifier)) {
     return grep(els, function (el, i) {
-      return !!qualifier.callbackify(el, i, el) !== not;
+      return !!qualifier.call(el, i, el) !== not;
     });
   }
 

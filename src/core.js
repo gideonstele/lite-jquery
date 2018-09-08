@@ -91,8 +91,13 @@ List.fn.attr = attr;
 List.fn.prop = prop;
 List.fn.val = value;
 
-List.fn.pushStack = function (els) {
+List.fn.pushStack = function (els, name = '', selector = '') {
   let ret = merge(this, els);
+  if (name === 'find') {
+    ret.selector = this.selector + (this.selector ? ' ' : '') + selector;
+  } else if (name) {
+    ret.selector = `${this.selector}.${name}(${selector})`;
+  }
   return ret;
 };
 
@@ -129,7 +134,7 @@ List.fn.find = function (selector) {
   if (selector && ys.str(selector)) {
     const ret = [];
     this.forEach(function() {
-      List.call(ret, qsa(selector, this), selector);
+      List.call(ret, dom.qsa(selector, this), selector);
     });
     return new List(ret, selector);
   }
@@ -137,23 +142,33 @@ List.fn.find = function (selector) {
     const self = this;
     return this.pushStack(dom(selector).filter(function() {
       for (let i = 0; i < len; i++) {
-        if (contains(self[i], this)) {
+        if (dom.contains(self[i], this)) {
           return true;
         }
       }
-    }));
+    }), 'find', selector);
   }
   return this;
 };
 
-List.fn.has = function (selector) {
-
+List.fn.has = function (target) {
+  const targets = [];
+  this.forEach(function() {
+    merge(targets, dom(target, this));
+  });
+  return this.filter(function() {
+    for (let i = 0; i < targets.length; i++) {
+      if (dom.contains(this, targets[i])) {
+        return true;
+      }
+    }
+  });
 };
 
 List.fn.eq = function (i) {
   const len = this.length;
   let j = i + (i < 0 ? len : 0);
-  return this.pushStack(j >= 0 && j < len ? [this[j]] : []);
+  return this.pushStack(j >= 0 && j < len ? [this[j]] : [], 'eq:', `${i}`);
 };
 
 List.fn.first = function () {
@@ -379,7 +394,7 @@ dom.contains = contains;
  * @description 根据选择符查询dom集合
  * @override 可由第三方重写覆盖
  */
-dom.query = dom.qsa = qsa;
+dom.query = dom.qsa = dom.find = qsa;
 
 /**
  * @description 检测给定的元素是否匹配给定的选择符
