@@ -54,9 +54,16 @@ const $ = require('lite-jquery');
 
 ### 接口/实现进度
 
+图例：
+
+✅  已经实现且通过测试的
+❎  已经实现、未测试的
+❌  还未实现的
+ℹ️  未计划实现的
+
 #### Core
 
-##### ✅ 选择器/DomReady
+##### ❎ 选择器/DomReady
 
  - selector, [context]
  - element
@@ -74,10 +81,13 @@ const $ = require('lite-jquery');
 
 ##### 筛选
 
+ > 警告：未实现jQuery类数组的去重操作。
+
  - 查找
    * ❌ children
-   * ✅ closest
-   * ✅ find
+   * ❌ contents
+   * ❎ closest
+   * ❎ find
    * ❌ next
    * ❌ nextAll
    * ❌ prev
@@ -85,19 +95,23 @@ const $ = require('lite-jquery');
    * ❌ sibings
    * ❌ parent
    * ❌ parents
+   * ℹ️ parentsUntil
+   * ℹ️ nextUntil
+   * ℹ️ prevUntil
  - 过滤
    * ✅ filter
    * ✅ eq
    * ✅ first
    * ✅ last
-   * ✅ is
-   * ✅ not
+   * ❎ is
+   * ❎ not
    * ❌ slice
-   * ❌ has
+   * ❎ has
    * ✅ map
  - 串联
-   * add
-   * end
+   * ❌ add
+   * ℹ️ addBack
+   * ❌ end
 
 ##### 属性
 
@@ -131,7 +145,7 @@ const $ = require('lite-jquery');
  - ✅ on(eventsObject|event[, selector], fn, options{data, capture})
  - ✅ off(event[, selector], fn)
  - ✅ one
- - ✅ trigger
+ - ❎ trigger
 
 **事件对象**
 
@@ -171,3 +185,13 @@ const $ = require('lite-jquery');
     * ❌ remove
  - 复制
     * ❌ clone
+
+##### 效果
+
+ - 显示隐藏
+    * ❌ show / hide /toggle
+
+ - 动画
+    * ❌ animate / stop / delay
+    * ❌ slide: Toggle / Up / Down
+    * ❌ fade: Toggle / In / Out / To

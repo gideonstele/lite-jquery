@@ -32,6 +32,9 @@ import {
   value
 } from './lib/attributes';
 import {
+  uniqueSort
+} from './jquery/core';
+import {
   winnow
 } from './jquery/findFilter';
 import {
@@ -57,7 +60,8 @@ function isHTML(str) {
  * @return {List}
  * @api private
  */
-function List(els = [], selector) {
+function List(els = [], selector = '') {
+  els = uniqueSort(els);
   const len = this.length = els.length;
   for (let i = 0; i < len; i++) {
     this[i] = els[i];
@@ -92,7 +96,7 @@ List.fn.prop = prop;
 List.fn.val = value;
 
 List.fn.pushStack = function (els, name = '', selector = '') {
-  let ret = merge(this, els);
+  let ret = new List(els, els.selector || '');
   if (name === 'find') {
     ret.selector = this.selector + (this.selector ? ' ' : '') + selector;
   } else if (name) {
@@ -101,7 +105,14 @@ List.fn.pushStack = function (els, name = '', selector = '') {
   return ret;
 };
 
-List.fn.is = function domys(selector) {
+List.fn.get = function (num) {
+  // eslint-disable-next-line eqeqeq
+  return num == null ? this.toArray() :
+    // Return just the object
+    (num < 0 ? this[this.length + num] : this[num]);
+};
+
+List.fn.is = function (selector) {
   return !!winnow(this,
     // If this is a positional/relative selector, check membership in the returned set
     // so $("p:first").is("p:last") won't return true for a doc with two "p".
@@ -122,33 +133,47 @@ function is (selector, element) {
 */
 
 List.fn.not = function (selector) {
-  return winnow(this, selector || [], true);
+  return this.pushStack(uniqueSort(winnow(this, selector || [], true)));
 };
 
 List.fn.filter = function (selector) {
-  return winnow(this, selector || [], false);
+  return this.pushStack(uniqueSort(winnow(this, selector || [], false)));
 };
 
 List.fn.find = function (selector) {
-  const len = this.length;
-  if (selector && ys.str(selector)) {
-    const ret = [];
-    this.forEach(function() {
-      List.call(ret, dom.qsa(selector, this), selector);
-    });
-    return new List(ret, selector);
-  }
-  if (selector && !ys.str(selector)) {
-    const self = this;
-    return this.pushStack(dom(selector).filter(function() {
-      for (let i = 0; i < len; i++) {
+  const self = this;
+  let ret = null;
+
+  if (ys.str(selector)) {
+    return dom(selector).filter(function() {
+      for (let i = 0, l = self.length; i < l; i++) {
         if (dom.contains(self[i], this)) {
           return true;
         }
       }
-    }), 'find', selector);
+    });
   }
-  return this;
+
+  ret = this.pushStack('', 'find', selector);
+
+  for (let i = 0, l = this.length; i < l; i++) {
+    const length = ret.length;
+    ret = merge(ret, dom(selector, this[i]));
+
+    if (i > 0) {
+      // Make sure that the results are unique
+      for (let n = length; n < ret.length; n++) {
+        for (let r = 0; r < length; r++) {
+          if (ret[r] === ret[n]) {
+            ret.splice(n--, l);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  return ret;
 };
 
 List.fn.has = function (target) {
@@ -163,6 +188,14 @@ List.fn.has = function (target) {
       }
     }
   });
+};
+
+List.fn.add = function(selector, context = doc) {
+  return this.pushStack(
+    uniqueSort(
+      merge(this.get(), dom(selector, context))
+    )
+  );
 };
 
 List.fn.eq = function (i) {
