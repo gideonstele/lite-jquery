@@ -2,6 +2,8 @@ import './polyfills/matches';
 import './polyfills/events';
 import dom from './core';
 import cookie from './tools/cookie';
+import extend from './tools/extend';
+import merge from './tools/merge';
 import ys from './tools/ys';
 import { store, removeStore, session, removeSession } from './tools/localstore';
 
@@ -16,7 +18,8 @@ $.localstore = {
   getStore: val => store(val),
   getSession: val => session(val)
 };
-
+$.extend = extend;
+$.merge = merge;
 window.$ = $;
 
 // (function (global, factory) {

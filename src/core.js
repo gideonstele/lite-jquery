@@ -11,6 +11,7 @@ import {
   getExpando
 } from './config/var';
 import ys from './tools/ys';
+import extend from './tools/extend';
 import merge from './tools/merge';
 import {
   trimLeft
@@ -422,6 +423,10 @@ dom.ready = function (fn) {
 };
 
 dom.fn = List.fn;
+
+dom.fn.extend = function(plugins) {
+  extend(List.prototype, plugins);
+};
 
 dom.List = List;
 
