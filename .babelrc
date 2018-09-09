@@ -1,15 +1,14 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/env",
       {
         "modules": false,
         "targets": {
-          "browsers": ["> 5%", "last 2 versions"]
+          "browsers": ["last 10 Chrome versions", "iOS >= 9", "Android >= 4.4"]
         }
       }
-    ],
-    "stage-0"
+    ]
   ],
-  "plugins": [ "external-helpers", "transform-decorators"]
+  "plugins": [ "@babel/plugin-external-helpers", "babel-plugin-lodash"]
 }

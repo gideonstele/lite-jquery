@@ -37,17 +37,14 @@ const baseConfig = {
               ["env", {
                 "modules": false,
                 "targets": {
-                  "browsers": ["last 10 Chrome versions", "iOS >= 7", "Android >= 4.0"]
+                  "browsers": ["last 10 Chrome versions", "iOS >= 9", "Android >= 4.4"]
                 }
-              }],
-              "stage-2"
+              }]
             ],
             "plugins": [
-              "lodash",
-              "transform-runtime",
-              "syntax-dynamic-import",
-              "transform-decorators-legacy",
-              "transform-decorators"
+              "babel-plugin-lodash",
+              "@babel/plugin-transform-runtime",
+              "@babel/plugin-syntax-dynamic-import"
             ]
           }
         }
