@@ -1,18 +1,22 @@
 # lite-jquery
 
-[![GitHub license](https://img.shields.io/github/license/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/blob/master/LICENSE)
-
-
-[![GitHub forks](https://img.shields.io/github/forks/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/network)
-
-
-[![GitHub stars](https://img.shields.io/github/stars/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/stargazers)
-
-
-[![GitHub issues](https://img.shields.io/github/issues/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/issues)
-
+<div style="text-align:center">
+<a href="https://github.com/shijinyu/lite-jquery/blob/master/LICENSE" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/license/shijinyu/lite-jquery.svg">
+</a>
+<a href="https://github.com/shijinyu/lite-jquery/network" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/forks/shijinyu/lite-jquery.svg">
+</a>
+<a href="https://github.com/shijinyu/lite-jquery/stargazers" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/stars/shijinyu/lite-jquery.svg">
+</a>
+<a href="https://github.com/shijinyu/lite-jquery/issues" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/issues/shijinyu/lite-jquery.svg">
+</a>
+</div>
 
 ----
+
 A jQuery-like library, but pure.
 
 ### 说明
