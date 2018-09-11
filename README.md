@@ -1,19 +1,35 @@
 # lite-jquery
 
-[![GitHub license](https://img.shields.io/github/license/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/blob/master/LICENSE)
+A jQuery-like library, but pure.
 
+---
 
-[![GitHub forks](https://img.shields.io/github/forks/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/network)
+<p> 该库尽量兼容jQuery的api，在主要api的行为中保持与jQuery一致。 </p>
 
+<p>砍掉了与dom操作无关的内容： ❌ajax模块、❌缓存系统（dom事件系统不再支持传入data、`data`接口不再保留）。</p>
 
-[![GitHub stars](https://img.shields.io/github/stars/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/stargazers)
+<p>增加了一些简单的浏览器相关操作的封装：`cookie`、`storage`。</p>
 
+<p>增加了一些简单的工具函数：`copy`、`merge`、`extend`（行为同`jQuery.extend`）、`ys`（常见类型判断），但这些工具函数默认不会被导入。</p>
 
-[![GitHub issues](https://img.shields.io/github/issues/shijinyu/lite-jquery.svg)](https://github.com/shijinyu/lite-jquery/issues)
-
+<div style="text-align:center">
+<a href="https://github.com/shijinyu/lite-jquery/blob/master/LICENSE" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/license/shijinyu/lite-jquery.svg">
+</a>
+<a href="https://github.com/shijinyu/lite-jquery/network" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/forks/shijinyu/lite-jquery.svg">
+</a>
+<a href="https://github.com/shijinyu/lite-jquery/stargazers" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/stars/shijinyu/lite-jquery.svg">
+</a>
+<a href="https://github.com/shijinyu/lite-jquery/issues" rel="nofollow" style="display:inline;text-decoration: none;">
+<img src="https://img.shields.io/github/issues/shijinyu/lite-jquery.svg">
+</a>
+</div>
 
 ----
-A jQuery-like library, but pure.
+
+
 
 ### 说明
 
@@ -40,7 +56,7 @@ $('selector')
 
 ```javascript
 import $ from 'lite-jquery';
-import ys from 'lite-jquery/tools/ys';
+import { extend, merge, ys } from 'lite-jquery';
 
 $('selector');
 ys.bool(true); // true
