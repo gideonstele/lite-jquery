@@ -95,7 +95,7 @@ const $ = require('lite-jquery');
 
 ##### 筛选
 
- > 警告：未实现jQuery类数组的去重操作。
+ > ✅ 已实现jQuery类数组的去重操作。
 
  - 查找
    * ❌ children
