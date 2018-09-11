@@ -39,6 +39,9 @@ import {
   winnow
 } from './jquery/findFilter';
 import {
+  remove
+} from './lib/manipulation';
+import {
   on,
   one,
   off,
@@ -218,6 +221,10 @@ List.fn.first = function () {
 
 List.fn.last = function () {
   return this.length ? this.eq(this.length - 1) : new this.constructor();
+};
+
+List.fn.remove = function (selector) {
+  return remove(this, selector);
 };
 
 /* classes */

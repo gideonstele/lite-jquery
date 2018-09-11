@@ -3,6 +3,7 @@ import './polyfills/events';
 import dom from './core';
 import cookie from './tools/cookie';
 import extend from './tools/extend';
+import clone from './tools/clone';
 import merge from './tools/merge';
 import ys from './tools/ys';
 import { store, removeStore, session, removeSession } from './tools/localstore';
@@ -20,7 +21,8 @@ $.localstore = {
 };
 $.extend = extend;
 $.merge = merge;
-window.$ = $;
+$.clone = clone;
+window.$ = window.jQuery = $;
 
 // (function (global, factory) {
 //   'use strict';

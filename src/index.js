@@ -2,6 +2,7 @@ import dom from './core';
 import cookie from './tools/cookie';
 import ys from './tools/ys';
 import extend from './tools/extend';
+import clone from './tools/clone';
 import merge from './tools/merge';
 import { store, removeStore, session, removeSession } from './tools/localstore';
 
@@ -19,7 +20,8 @@ export {
   ys,
   localstore,
   extend,
-  merge
+  merge,
+  clone
 };
 
 export default dom;
