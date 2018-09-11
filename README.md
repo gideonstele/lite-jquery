@@ -2,8 +2,6 @@
 
 A jQuery-like library, but pure.
 
----
-
 <p> 该库尽量兼容jQuery的api，在主要api的行为中保持与jQuery一致。 </p>
 
 <p>砍掉了与dom操作无关的内容： ❌ajax模块、❌缓存系统（dom事件系统不再支持传入data、`data`接口不再保留）。</p>
