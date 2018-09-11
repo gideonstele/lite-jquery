@@ -1,4 +1,4 @@
-import { doc } from '../config/const';
+import { doc, docEl, rnative } from '../config/const';
 
 const matches = Element.prototype.matches ||
   Element.prototype.webkitMatchesSelector ||
@@ -33,8 +33,36 @@ export function matchSelectors(els, selector) {
   }, []);
 }
 
-export function contains(target, el) {
-  const adown = target.nodeType === 9 ? target.documentElement : target;
-  const bup = el && el.parentNode;
-  return adown === bup || !!(bup && bup.nodeType === 1 && adown.contains && adown.contains(bup));
-}
+// export function contains(target, el) {
+//   const adown = target.nodeType === 9 ? target.documentElement : target;
+//   const bup = el && el.parentNode;
+//   return adown === bup || !!(bup && bup.nodeType === 1 && adown.contains && adown.contains(bup));
+// }
+/* Contains
+  ---------------------------------------------------------------------- */
+/**
+ * @export contains
+ * @see https://github.com/jquery/sizzle/blob/master/src/sizzle.js#L850
+ * @param {Element,NodeList} container
+ * @param {Element} contained
+ */
+export const contains = rnative.test(docEl.compareDocumentPosition) || rnative.test(docEl.contains) ?
+  function (a, b) {
+    var adown = a.nodeType === 9 ? a.documentElement : a,
+      bup = b && b.parentNode;
+    return a === bup || !!(bup && bup.nodeType === 1 && (
+      adown.contains ?
+      adown.contains(bup) :
+      a.compareDocumentPosition && a.compareDocumentPosition(bup) & 16
+    ));
+  } :
+  function (a, b) {
+    if (b) {
+      while ((b = b.parentNode)) {
+        if (b === a) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };

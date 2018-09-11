@@ -1,4 +1,6 @@
-import { findFilter } from "../jquery/findFilter";
+import {
+  findFilter
+} from '../jquery/findFilter';
 
 /**
  *
@@ -12,11 +14,12 @@ export function remove(el, selector) {
   let nodes = selector ? findFilter(selector, el) : el;
   let node;
 
-	for (let i = 0; (node = nodes[i]) != null; i++) {
-		if (node.parentNode) {
-			node.parentNode.removeChild(node);
-		}
-	}
+  for (let i = 0;
+    (node = nodes[i]) != null; i++) {
+    if (node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
+  }
 
-	return el;
+  return el;
 }
