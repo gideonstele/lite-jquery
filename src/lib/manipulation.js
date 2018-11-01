@@ -3,9 +3,15 @@ import {
 } from '../jquery/findFilter';
 
 /**
+ * 
+ * @see https://github.com/jquery/jquery/blob/master/src/manipulation.js#L126
+ * @param {ArrayLike<>}
+*/
+
+/**
  *
  * @export remove
- * @callback https://github.com/jquery/jquery/blob/master/src/manipulation.js#L216
+ * @see https://github.com/jquery/jquery/blob/master/src/manipulation.js#L216
  * @param {Element} el
  * @param {String} string
  * @returns

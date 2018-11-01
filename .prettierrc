@@ -1,7 +1,7 @@
 {
-  "editor.formatOnPaste": false,
-  "editor.formatOnSave": false,
-  "editor.formatOnType": false,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
   "prettier.trailingComma": "none",
   "prettier.printWidth": 200,
   "prettier.disableLanguages": [],

@@ -11,7 +11,7 @@
  * @returns {boolean}
  */
 export function startsWith(str, part) {
-  if ('string' === typeof str) {
+  if ('string' !== typeof str) {
     return TypeError();
   }
   return str.indexOf(part) === 0;
@@ -26,11 +26,11 @@ export function startsWith(str, part) {
  * @returns {boolean}
  */
 export function endsWith(str, part, len) {
-  if ('string' === typeof str) {
+  if ('string' !== typeof str) {
     return TypeError();
   }
-  if (len === undefined || len > this.length) {
-    len = this.length;
+  if (len === undefined || len > str.length) {
+    len = str.length;
   }
   return str.substring(len - part.length, len) === part;
 }

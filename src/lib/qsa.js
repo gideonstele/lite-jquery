@@ -33,11 +33,7 @@ export function matchSelectors(els, selector) {
   }, []);
 }
 
-// export function contains(target, el) {
-//   const adown = target.nodeType === 9 ? target.documentElement : target;
-//   const bup = el && el.parentNode;
-//   return adown === bup || !!(bup && bup.nodeType === 1 && adown.contains && adown.contains(bup));
-// }
+
 /* Contains
   ---------------------------------------------------------------------- */
 /**

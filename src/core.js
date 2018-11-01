@@ -132,16 +132,6 @@ List.fn.is = function (selector) {
     selector || [],
     false).length;
 };
-/*
-function is (selector, element) {
-  element = element || this[0];
-  if (element && element.nodeType) {
-    return element === selector ?
-      true :
-      typeof selector === 'string' && matchSelector(element, selector);
-  }
-};
-*/
 
 List.fn.not = function (selector) {
   return this.pushStack(uniqueSort(winnow(this, selector || [], true)));

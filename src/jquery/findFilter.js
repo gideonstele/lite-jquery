@@ -12,7 +12,7 @@ import {
 
 /**
  *
- * @callback https://github.com/jquery/jquery/blob/master/src/traversing/findFilter.js#L12
+ * @see https://github.com/jquery/jquery/blob/master/src/traversing/findFilter.js#L12
  * @param {ArrayLike<Element>} els
  * @param {Function, Element, ArrayLike<Element>} qualifier
  * @param {Boolean} not
