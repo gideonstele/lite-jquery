@@ -1,7 +1,7 @@
 import ys from '../tools/ys';
 
 export function removeAttr(name) {
-  return this.forEach(function () {
+  return this.forEach(function() {
     this.removeAttribute(name);
   });
 }
@@ -14,7 +14,7 @@ export function attr(name, val) {
     return this.removeAttr(name);
   }
 
-  return this.forEach(function () {
+  return this.forEach(function() {
     this.setAttribute(name, val);
   });
 }
@@ -28,7 +28,7 @@ export function prop(name, val) {
     return this[0][name];
   }
 
-  return this.forEach(function () {
+  return this.forEach(function() {
     this[name] = val;
   });
 }
@@ -61,7 +61,7 @@ export function value(val) {
   if (0 === arguments.length) {
     const el = this[0];
     if ('radiogroup' === getElType(this)) {
-      for (let i = 0, radio; radio = el[i]; i++) {
+      for (let i = 0, radio; (radio = el[i]); i++) {
         if (radio.checked) {
           return radio.value;
         }
@@ -76,7 +76,7 @@ export function value(val) {
         }
         return false;
       case 'select':
-        for (let i = 0, option; option = el.options[i]; i++) {
+        for (let i = 0, option; (option = el.options[i]); i++) {
           if (option.selected) return option.value;
         }
         break;
@@ -85,7 +85,7 @@ export function value(val) {
     }
   }
   // set
-  return this.forEach(function () {
+  return this.forEach(function() {
     const el = this;
     switch (getElType(el)) {
       case 'checkbox':
@@ -93,12 +93,12 @@ export function value(val) {
         el.checked = !!val;
         break;
       case 'radiogroup':
-        for (let i = 0, radio; radio = el[i]; i++) {
+        for (let i = 0, radio; (radio = el[i]); i++) {
           radio.checked = radio.value === val;
         }
         break;
       case 'select':
-        for (let i = 0, option; option = el.options[i]; i++) {
+        for (let i = 0, option; (option = el.options[i]); i++) {
           option.selected = option.value === val;
         }
         break;

@@ -56,4 +56,4 @@ export default function extend() {
 
   // Return the modified object
   return target;
-};
+}

@@ -1,10 +1,10 @@
 const path = require('path');
 const Koa = require('koa');
-const static = require('koa-static');
+const staticMiddleware = require('koa-static');
 const bodyParser = require('koa-bodyparser')
 const webpack = require('webpack');
-const webpackDevMiddleware = require('koa-webpack-dev-middleware');
-const webpackHotMiddleware = require('koa-webpack-hot-middleware')
+const webpackDevMiddleware = require('webpack-dev-koa-middleware');
+const webpackHotMiddleware = require('webpack-hot-koa-middleware')
 const app = new Koa();
 
 const devWebpackConfig = require('./webpack.dev');
@@ -15,13 +15,9 @@ const testPath = path.resolve(__dirname, '../../test');
 const complier = webpack(devWebpackConfig);
 
 app.use(bodyParser());
-app.use(static(examplePath));
-app.use(static(distPath));
-app.use(static(testPath));
-
-// app.use(async (ctx) => {
-//   ctx.body = 'hello world';
-// });
+app.use(staticMiddleware(examplePath));
+app.use(staticMiddleware(distPath));
+app.use(staticMiddleware(testPath));
 
 app.use(webpackDevMiddleware(complier, {
   hot: true,
@@ -29,7 +25,7 @@ app.use(webpackDevMiddleware(complier, {
   noInfo: false,
   quiet: false,
   aggregateTimeout: 300,
-  publicPath: "/",
+  publicPath: '/',
   open: 'http://localhost:3000/demo-1.html',
   stats: {
     colors: true

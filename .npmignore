@@ -1,0 +1,10 @@
+.gitignore
+.prettierrc.js
+.editorconfig
+.eslintignore
+.eslintrc.js
+.babelrc
+example/
+build/
+test/
+.github

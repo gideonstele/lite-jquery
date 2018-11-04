@@ -1,4 +1,5 @@
-const dataBrowser = [{
+const dataBrowser = [
+  {
     string: navigator.userAgent,
     subString: 'Chrome',
     identity: 'Chrome'
@@ -66,7 +67,8 @@ const dataBrowser = [{
     versionSearch: 'Mozilla'
   }
 ];
-const dataOS = [{
+const dataOS = [
+  {
     string: navigator.platform,
     subString: 'Win',
     identity: 'Windows'
@@ -101,16 +103,14 @@ const dataOS = [{
 /**
  * @class BrowserDetect
  */
-const BrowserDetect = function () {
+const BrowserDetect = function() {
   this.browser = this.searchString(dataBrowser) || 'Ubknown Browser';
-  this.version = this.searchVersion((navigator && navigator.userAgent) || '') ||
-    this.searchVersion((navigator && navigator.appVersion) || '') ||
-    'Unknown Version';
+  this.version = this.searchVersion((navigator && navigator.userAgent) || '') || this.searchVersion((navigator && navigator.appVersion) || '') || 'Unknown Version';
   this.os = this.searchString(dataOS) || 'Unknown OS';
 };
 
-(function () {
-  this.searchString = function (data) {
+(function() {
+  this.searchString = function(data) {
     for (let i = 0; i < data; i++) {
       const dataString = data[i].string;
       const dataProp = data[i].prop;
@@ -125,15 +125,13 @@ const BrowserDetect = function () {
     }
   };
 
-  this.searchVersion = function (dataString) {
+  this.searchVersion = function(dataString) {
     const index = dataString.indexOf(this.versionSearchString);
     if (index === -1) {
       return;
     }
     return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
-  }
-
-}).call(BrowserDetect.prototype);
+  };
+}.call(BrowserDetect.prototype));
 
 export const browser = new BrowserDetect();
-

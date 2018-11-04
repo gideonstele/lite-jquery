@@ -1,6 +1,4 @@
-import {
-  getExpando
-} from '../config/var';
+import { getExpando } from '../config/var';
 import ys from '../tools/ys';
 
 /**
@@ -34,7 +32,6 @@ Data.prototype = {
       // Always return an empty object.
       // 只考虑dom数据
       if (acceptData(owner)) {
-
         // If it is a node unlikely to be stringify-ed or looped over
         // use plain assignment
         if (owner.nodeType) {
@@ -63,7 +60,6 @@ Data.prototype = {
     if (ys.str(data)) {
       cache[data] = value;
     } else {
-
       // Copy the properties one-by-one to the cache object
       for (let prop in data) {
         cache[prop] = data[prop];
@@ -75,7 +71,6 @@ Data.prototype = {
     return key === undefined ? this.cache(owner) : owner[getExpando()] && owner[getExpando()][key];
   },
   access(owner, key, value) {
-
     // In cases where either:
     //
     //   1. No key was specified
@@ -87,7 +82,7 @@ Data.prototype = {
     //   1. The entire cache object
     //   2. The data stored at the key
     //
-    if (key === undefined || ((key && typeof key === 'string') && value === undefined)) {
+    if (key === undefined || (key && typeof key === 'string' && value === undefined)) {
       return this.get(owner, key);
     }
   },
@@ -99,7 +94,6 @@ Data.prototype = {
     }
 
     if (key !== undefined) {
-
       // Support array or space separated string of keys
       if (!ys.array(key)) {
         // If key is an array of keys...

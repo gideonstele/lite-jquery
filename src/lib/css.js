@@ -6,13 +6,13 @@ import { win } from '../config/const';
 
 export function setCss(el, key, value) {
   if (ys.str(key)) {
-    el.style[key] = rule;
+    el.style[key] = value;
   }
   if (ys.obj(key)) {
     const styles = key;
     for (let styleKey in styles) {
       if (styles.hasOwnProperty(styleKey)) {
-        const style = style[styleKey];
+        const style = styles[styleKey];
         el.style[styleKey] = style[styleKey];
       }
     }
@@ -21,7 +21,7 @@ export function setCss(el, key, value) {
 
 export function getCss(el, key) {
   if (el.nodeType !== 1) {
-    return ;
+    return;
   }
   return win.getComputedStyle(el).getPropertyValue(key);
 }

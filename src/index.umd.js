@@ -16,8 +16,8 @@ $.localstore = {
   removeStore,
   session,
   removeSession,
-  getStore: val => store(val),
-  getSession: val => session(val)
+  getStore: (val) => store(val),
+  getSession: (val) => session(val)
 };
 $.extend = extend;
 $.merge = merge;

@@ -13,7 +13,7 @@ export function closest(selector, scope = doc.documentElement) {
     el = el.parentNode;
   }
   return matchSelector(el, selector) ? el : null;
-};
+}
 /* eslint-disable no-useless-return */
 export function find(selector) {
   return;

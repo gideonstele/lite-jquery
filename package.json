@@ -52,6 +52,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.5.0",
+    "eslint-config-prettier": "^3.1.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-html": "^4.0.5",
@@ -67,9 +68,8 @@
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
     "koa-static": "^4.0.3",
-    "koa-webpack-dev-middleware": "^2.0.2",
-    "koa-webpack-hot-middleware": "^1.0.3",
     "mini-css-extract-plugin": "^0.4.2",
+    "prettier": "^1.14.3",
     "qunit": "^2.6.2",
     "rollup": "^0.65.2",
     "rollup-plugin-babel": "^4.0.3",
@@ -80,10 +80,12 @@
     "rollup-plugin-uglify": "^5.0.2",
     "rollup-plugin-uglify-es": "0.0.1",
     "style-loader": "^0.23.0",
+    "terser": "^3.10.8",
     "url-loader": "^1.1.1",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-middleware": "^3.2.0",
+    "webpack-dev-koa-middleware": "^1.0.2",
+    "webpack-hot-koa-middleware": "^1.0.1",
     "webpack-merge": "^4.1.4"
   }
 }

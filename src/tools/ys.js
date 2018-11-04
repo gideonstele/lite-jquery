@@ -2,15 +2,7 @@
  * @description 检测类型
  */
 
-import {
-  isError,
-  isFunction,
-  isArray,
-  isEmpty,
-  isObject,
-  isPlainObject,
-  isBoolean
-} from 'lodash-es';
+import { isError, isFunction, isArray, isEmpty, isObject, isPlainObject, isBoolean } from 'lodash-es';
 import { loc } from '../config/const';
 
 const ys = {
@@ -25,7 +17,7 @@ const ys = {
     return Object.prototype.toString(val) === '[object Arguments]';
   },
   str(input) {
-    return input != null && ((input.constructor + '').indexOf('String') > -1);
+    return input != null && (input.constructor + '').indexOf('String') > -1;
   },
   regExp(val) {
     return Object.prototype.toString(val) === '[object RegExp]';
@@ -40,12 +32,11 @@ const ys = {
     return val !== null && val === val.window;
   },
   isBuffer(obj) {
-    return !!(obj != null &&
+    return !!(
+      obj != null &&
       (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
-        (obj.constructor &&
-          typeof obj.constructor.isBuffer === 'function' &&
-          obj.constructor.isBuffer(obj))
-      ));
+        (obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)))
+    );
   },
   HTTPS() {
     return loc.protocol === 'https:';

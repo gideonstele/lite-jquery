@@ -11,17 +11,10 @@ const localstore = {
   removeStore,
   session,
   removeSession,
-  getStore: val => store(val),
-  getSession: val => session(val)
+  getStore: (val) => store(val),
+  getSession: (val) => session(val)
 };
 
-export {
-  cookie,
-  ys,
-  localstore,
-  extend,
-  merge,
-  clone
-};
+export { cookie, ys, localstore, extend, merge, clone };
 
 export default dom;

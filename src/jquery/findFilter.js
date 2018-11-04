@@ -1,14 +1,7 @@
 import ys from '../tools/ys';
-import {
-  difference
-} from 'lodash-es';
-import {
-  matchSelector,
-  matchSelectors
-} from '../lib/qsa';
-import {
-  grep
-} from './core';
+import { difference } from 'lodash-es';
+import { matchSelector, matchSelectors } from '../lib/qsa';
+import { grep } from './core';
 
 /**
  *
@@ -20,25 +13,24 @@ import {
  */
 export function winnow(els, qualifier, not) {
   if (ys.func(qualifier)) {
-    return grep(els, function (el, i) {
+    return grep(els, function(el, i) {
       return !!qualifier.call(el, i, el) !== not;
     });
   }
 
   if (qualifier.nodeType) {
-    return grep(els, function (el) {
+    return grep(els, function(el) {
       return (el === qualifier) !== not;
     });
   }
 
   if (typeof qualifier !== 'string') {
-    return grep(els, function (el) {
-      return ([].indexOf.call(qualifier, el) > -1) !== not;
+    return grep(els, function(el) {
+      return [].indexOf.call(qualifier, el) > -1 !== not;
     });
   }
 
   return findFilter(qualifier, els, not);
-
 }
 
 export function findFilter(expr, els, not) {
@@ -50,9 +42,12 @@ export function findFilter(expr, els, not) {
     }
     return result ? [el] : [];
   }
-  const matches = matchSelectors(grep(els, function (el) {
-    return el.nodeType === 1;
-  }), expr);
+  const matches = matchSelectors(
+    grep(els, function(el) {
+      return el.nodeType === 1;
+    }),
+    expr
+  );
   if (not) {
     return difference(els, matches);
   }

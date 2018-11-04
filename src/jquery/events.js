@@ -1,28 +1,16 @@
 import extend from '../tools/extend';
 import ys from '../tools/ys';
 import each from '../tools/each';
-import {
-  qsa,
-  matchSelector,
-  contains
-} from '../lib/qsa';
+import { qsa, matchSelector, contains } from '../lib/qsa';
 import Data from '../lib/data';
-import {
-  getExpando
-} from '../config/var';
-import {
-  rtypenamespace,
-  rspace,
-  doc
-} from '../config/const';
-import {
-  makeArray
-} from '../tools/merge';
+import { getExpando } from '../config/var';
+import { rtypenamespace, rspace, doc } from '../config/const';
+import { makeArray } from '../tools/merge';
 
 const rkeyEvent = /^key/;
 const rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/;
 const rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
-const stopPropagationCallback = function (e) {
+const stopPropagationCallback = function(e) {
   e.stopPropagation();
 };
 // Support: IE <=9 only
@@ -134,12 +122,10 @@ const objEvent = {
     }
 
     if (!(eventHandle = elData.handle)) {
-      eventHandle = elData.handle = function (e) {
-
+      eventHandle = elData.handle = function(e) {
         // Discard the second event of a objEvent.trigger() and
         // when an event is called after a page has unloaded
-        return objEvent.triggered !== e.type ?
-          objEvent.dispatch.apply(el, arguments) : undefined;
+        return objEvent.triggered !== e.type ? objEvent.dispatch.apply(el, arguments) : undefined;
       };
     }
 
@@ -166,15 +152,19 @@ const objEvent = {
       special = objEvent.special[type] || {};
 
       // handleObj is passed to all event handlers
-      const handleObj = extend(true, {
-        type: type,
-        origType: origType,
-        data: data,
-        handler,
-        guid: handler.guid,
-        selector: selector,
-        namespace: namespaces.join('.')
-      }, handleObjIn);
+      const handleObj = extend(
+        true,
+        {
+          type: type,
+          origType: origType,
+          data: data,
+          handler,
+          guid: handler.guid,
+          selector: selector,
+          namespace: namespaces.join('.')
+        },
+        handleObjIn
+      );
 
       // Init the event handler queue if we're the first
       if (!(handlers = events[type])) {
@@ -205,7 +195,6 @@ const objEvent = {
       }
 
       objEvent.global[type] = true;
-
     }
   },
   dispatch(nativeEvent) {
@@ -261,7 +250,6 @@ const objEvent = {
     }
 
     return event.result;
-
   },
   handlers(event, handlers) {
     let handleObj, sel, matchedHandlers, matchedSelectors;
@@ -281,9 +269,7 @@ const objEvent = {
     // ...but not arrow key 'clicks' of radio inputs, which can have `button` -1 (gh-2343)
 
     if (delegateCount && cur.nodeType && !(event.type === 'click' && event.button >= 1)) {
-
       for (; cur !== this; cur = cur.parentNode || this) {
-
         // Don't check non-elements (#13208)
         // Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
         if (cur.nodeType === 1 && !(event.type === 'click' && cur.disabled === true)) {
@@ -296,7 +282,7 @@ const objEvent = {
             sel = handleObj.selector + ' ';
 
             if (matchedSelectors[sel] === undefined) {
-              matchedSelectors[sel] = (function () {
+              matchedSelectors[sel] = (function() {
                 const selects = qsa(sel, this);
                 const result = [];
                 for (let i = 0; i < selects.length; i++) {
@@ -318,10 +304,8 @@ const objEvent = {
               handlers: matchedHandlers
             });
           }
-
         }
       }
-
     }
 
     // Add the remaining (directly-bound) handlers
@@ -349,7 +333,7 @@ const objEvent = {
     let t = types.length;
     while (t--) {
       let tmp = rtypenamespace.exec(types[t]) || [];
-      let type = origType = tmp[1];
+      let type = (origType = tmp[1]);
       let namespaces = (tmp[2] || '').split('.').sort();
 
       // Unbind all events (on this namespace, if provided) for the element
@@ -371,10 +355,12 @@ const objEvent = {
       while (j--) {
         let handleObj = handlers[j];
 
-        if ((mappedTypes || origType === handleObj.origType) &&
+        if (
+          (mappedTypes || origType === handleObj.origType) &&
           (!handler || handler.guid === handleObj.guid) &&
           (!tmp || tmp.test(handleObj.namespace)) &&
-          (!selector || selector === handleObj.selector || selector === '**' && handleObj.selector)) {
+          (!selector || selector === handleObj.selector || (selector === '**' && handleObj.selector))
+        ) {
           handlers.splice(j, 1);
 
           if (handleObj.selector) {
@@ -404,7 +390,6 @@ const objEvent = {
 };
 
 export function LiteEvent(src, props) {
-
   // Allow instantiation without the 'new' keyword
   if (!(this instanceof LiteEvent)) {
     return new LiteEvent(src, props);
@@ -417,19 +402,20 @@ export function LiteEvent(src, props) {
 
     // Events bubbling up the document may have been marked as prevented
     // by a handler lower down the tree; reflect the correct value.
-    this.isDefaultPrevented = src.defaultPrevented ||
-      src.defaultPrevented === undefined &&
-
-      // Support: Android <=2.3 only
-      src.returnValue === false ? returnTrue : returnFalse;
+    this.isDefaultPrevented =
+      src.defaultPrevented ||
+      (src.defaultPrevented === undefined &&
+        // Support: Android <=2.3 only
+        src.returnValue === false)
+        ? returnTrue
+        : returnFalse;
 
     // Create target properties
     // Support: Safari <=6 - 7 only
     // Target should not be a text node
-    this.target = (src.target && src.target.nodeType === 3) ? src.target.parentNode : src.target;
+    this.target = src.target && src.target.nodeType === 3 ? src.target.parentNode : src.target;
     this.currentTarget = src.currentTarget;
     this.relatedTarget = src.relatedTarget;
-
   } else {
     // Event type
     this.type = src;
@@ -441,7 +427,7 @@ export function LiteEvent(src, props) {
   }
 
   // Create a timestamp if incoming event doesn't have one
-  this.timeStamp = src && src.timeStamp || Date.now();
+  this.timeStamp = (src && src.timeStamp) || Date.now();
 
   this[getExpando()] = true;
 }
@@ -586,11 +572,9 @@ export function trigger(event, data, el, onlyHandlers) {
   // If nobody prevented the default action, do it now
   if (!onlyHandlers && !event.isDefaultPrevented()) {
     if ((!special._default || special._default.apply(eventPath.pop(), data) === false) && (el.nodeType === 1 || el.nodeType === 9)) {
-
       // Call a native DOM method on the target with the same name as the event.
       // Don't do default actions on window, that's where global variables be (#6170)
       if (ontype && ys.func(el[type]) && ys.window(el)) {
-
         // Don't re-trigger an onFOO event when we call its FOO() method
         tmp = el[ontype];
         if (tmp) {
@@ -620,7 +604,7 @@ export function trigger(event, data, el, onlyHandlers) {
   }
 
   return event.result;
-};
+}
 // Piggyback on a donor event to simulate a different one
 // Used only for `focus(in | out)` events
 export function simulate(type, el, event) {
@@ -632,121 +616,127 @@ export function simulate(type, el, event) {
   trigger(e, null, el);
 }
 
-
 /**
  * @description 为 Event 原型添加特殊属性或方法
  * @private
  */
-each({
-  altKey: true,
-  bubbles: true,
-  cancelable: true,
-  changedTouches: true,
-  ctrlKey: true,
-  detail: true,
-  eventPhase: true,
-  metaKey: true,
-  pageX: true,
-  pageY: true,
-  shiftKey: true,
-  view: true,
-  'char': true,
-  code: true,
-  charCode: true,
-  key: true,
-  keyCode: true,
-  button: true,
-  buttons: true,
-  clientX: true,
-  clientY: true,
-  offsetX: true,
-  offsetY: true,
-  pointerId: true,
-  pointerType: true,
-  screenX: true,
-  screenY: true,
-  targetTouches: true,
-  toElement: true,
-  touches: true,
+each(
+  {
+    altKey: true,
+    bubbles: true,
+    cancelable: true,
+    changedTouches: true,
+    ctrlKey: true,
+    detail: true,
+    eventPhase: true,
+    metaKey: true,
+    pageX: true,
+    pageY: true,
+    shiftKey: true,
+    view: true,
+    char: true,
+    code: true,
+    charCode: true,
+    key: true,
+    keyCode: true,
+    button: true,
+    buttons: true,
+    clientX: true,
+    clientY: true,
+    offsetX: true,
+    offsetY: true,
+    pointerId: true,
+    pointerType: true,
+    screenX: true,
+    screenY: true,
+    targetTouches: true,
+    toElement: true,
+    touches: true,
 
-  which: function (event) {
-    var button = event.button;
+    which: function(event) {
+      var button = event.button;
 
-    // Add which for key events
-    if (event.which == null && rkeyEvent.test(event.type)) {
-      return event.charCode != null ? event.charCode : event.keyCode;
+      // Add which for key events
+      if (event.which == null && rkeyEvent.test(event.type)) {
+        return event.charCode != null ? event.charCode : event.keyCode;
+      }
+
+      // Add which for click: 1 === left; 2 === middle; 3 === right
+      if (!event.which && button !== undefined && rmouseEvent.test(event.type)) {
+        if (button & 1) {
+          return 1;
+        }
+
+        if (button & 2) {
+          return 3;
+        }
+
+        if (button & 4) {
+          return 2;
+        }
+
+        return 0;
+      }
+
+      return event.which;
     }
+  },
+  function(name, hook) {
+    Object.defineProperty(Event.prototype, name, {
+      enumerable: true,
+      configurable: true,
+      get: ys.func(hook)
+        ? function() {
+            if (this.originalEvent) {
+              return hook(this.originalEvent);
+            }
+          }
+        : function() {
+            if (this.originalEvent) {
+              return this.originalEvent[name];
+            }
+          },
 
-    // Add which for click: 1 === left; 2 === middle; 3 === right
-    if (!event.which && button !== undefined && rmouseEvent.test(event.type)) {
-      if (button & 1) {
-        return 1;
+      set: function(value) {
+        Object.defineProperty(this, name, {
+          enumerable: true,
+          configurable: true,
+          writable: true,
+          value: value
+        });
       }
-
-      if (button & 2) {
-        return 3;
-      }
-
-      if (button & 4) {
-        return 2;
-      }
-
-      return 0;
-    }
-
-    return event.which;
+    });
   }
-}, function (name, hook) {
-  Object.defineProperty(Event.prototype, name, {
-    enumerable: true,
-    configurable: true,
-    get: ys.func(hook) ?
-      function () {
-        if (this.originalEvent) {
-          return hook(this.originalEvent);
-        }
-      } : function () {
-        if (this.originalEvent) {
-          return this.originalEvent[name];
-        }
-      },
+);
 
-    set: function (value) {
-      Object.defineProperty(this, name, {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value: value
-      });
-    }
-  });
-});
-
-each({
-  mouseenter: 'mouseover',
-  mouseleave: 'mouseout',
-  pointerenter: 'pointerover',
-  pointerleave: 'pointerout'
-}, function (orig, fix) {
-  objEvent.special[orig] = {
-    delegateType: fix,
-    bindType: fix,
-    handle(event) {
-      const target = this;
-      const related = event.relatedTarget;
-      const handleObj = event.handleObj;
-      let ret;
-      // For mouseenter/leave call the handler if related is outside the target.
-      // NB: No relatedTarget if the mouse left/entered the browser window
-      if (!related || (related !== target && !contains(target, related))) {
-        event.type = handleObj.origType;
-        ret = handleObj.handler.apply(this, arguments);
-        event.type = fix;
+each(
+  {
+    mouseenter: 'mouseover',
+    mouseleave: 'mouseout',
+    pointerenter: 'pointerover',
+    pointerleave: 'pointerout'
+  },
+  function(orig, fix) {
+    objEvent.special[orig] = {
+      delegateType: fix,
+      bindType: fix,
+      handle(event) {
+        const target = this;
+        const related = event.relatedTarget;
+        const handleObj = event.handleObj;
+        let ret;
+        // For mouseenter/leave call the handler if related is outside the target.
+        // NB: No relatedTarget if the mouse left/entered the browser window
+        if (!related || (related !== target && !contains(target, related))) {
+          event.type = handleObj.origType;
+          ret = handleObj.handler.apply(this, arguments);
+          event.type = fix;
+        }
+        return ret;
       }
-      return ret;
-    }
-  };
-});
+    };
+  }
+);
 
 const defaultOptions = {
   one: false,
@@ -765,7 +755,7 @@ const defaultOptions = {
  */
 export function on(els, event, selector, fn, options) {
   options = extend(options, defaultOptions);
-  return els.each(function () {
+  return els.each(function() {
     const el = this;
     // add event
     objEvent.add(el, event, selector, options.data, fn);
@@ -774,8 +764,7 @@ export function on(els, event, selector, fn, options) {
 
 export function one(els, event, selector, fn, options) {
   const origFn = fn;
-  fn = function (event) {
-
+  fn = function(event) {
     // Can use an empty set, since event contains the info
     off(els, event, selector, fn);
     return origFn.apply(this, arguments);
@@ -784,7 +773,7 @@ export function one(els, event, selector, fn, options) {
   // Use same guid so caller can remove using origFn
   fn.guid = origFn.guid || (origFn.guid = guid++);
 
-  return els.each(function () {
+  return els.each(function() {
     const el = this;
     // add event
     objEvent.add(el, event, selector, options.data, fn);
@@ -792,24 +781,14 @@ export function one(els, event, selector, fn, options) {
 }
 
 export function off(self, types, selector, fn) {
-
   if (types && types.preventDefault && types.handleObj) {
-
     // ( event )  dispatched LiteEvent
     let handleObj = event.handleObj;
     const tmpList = new self.constructor(types.delegateTarget);
-    off(
-      tmpList,
-      handleObj.namespace ?
-      handleObj.origType + '.' + handleObj.namespace :
-      handleObj.origType,
-      handleObj.selector,
-      handleObj.handler
-    );
+    off(tmpList, handleObj.namespace ? handleObj.origType + '.' + handleObj.namespace : handleObj.origType, handleObj.selector, handleObj.handler);
     return;
   }
   if (ys.obj(event)) {
-
     // ( types-object [, selector] )
     for (let type in types) {
       off(self, type, selector, types[type]);
@@ -817,7 +796,6 @@ export function off(self, types, selector, fn) {
     return this;
   }
   if (selector === false || ys.func(selector)) {
-
     // ( types [, fn] )
     fn = selector;
     selector = undefined;
@@ -825,7 +803,7 @@ export function off(self, types, selector, fn) {
   if (fn === false) {
     fn = returnFalse;
   }
-  return self.each(function () {
+  return self.each(function() {
     objEvent.remove(this, types, fn, selector);
   });
 }

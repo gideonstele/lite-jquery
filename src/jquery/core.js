@@ -2,12 +2,8 @@
  *
  * @module 从jquery/core和sizzle中移植的部分代码
  */
-import {
-  contains
-} from '../lib/qsa';
-import {
-  getExpando
-} from '../config/var';
+import { contains } from '../lib/qsa';
+import { getExpando } from '../config/var';
 /**
  *
  * @export
@@ -36,7 +32,7 @@ export function grep(els, callback, invert) {
  * @see https://github.com/jquery/jquery/blob/master/src/selector-native.js#L37
  */
 var sortInput, hasDuplicate;
-const sortOrder = function (a, b) {
+const sortOrder = function(a, b) {
   // Flag for duplicate removal
   if (a === b) {
     hasDuplicate = true;
@@ -48,33 +44,33 @@ const sortOrder = function (a, b) {
     return compare;
   }
   // Calculate position if both inputs belong to the same document
-  compare = (a.ownerDocument || a) === (b.ownerDocument || b) ?
-    a.compareDocumentPosition(b) :
-    // Otherwise we know they are disconnected
-    1;
+  compare =
+    (a.ownerDocument || a) === (b.ownerDocument || b)
+      ? a.compareDocumentPosition(b)
+      : // Otherwise we know they are disconnected
+        1;
 
   // Disconnected nodes
   if (compare & 1) {
     // Choose the first element that is related to our preferred document
-    if (a === document || a.ownerDocument === document &&
-      contains(document, a)) {
+    if (a === document || (a.ownerDocument === document && contains(document, a))) {
       return -1;
     }
-    if (b === document || b.ownerDocument === document &&
-      contains(document, b)) {
+    if (b === document || (b.ownerDocument === document && contains(document, b))) {
       return 1;
     }
     // Maintain original order
-    return sortInput ?
-      (Array.prototype.indexOf.call(sortInput, a) - Array.prototype.indexOf.call(sortInput, b)) :
-      0;
+    return sortInput ? Array.prototype.indexOf.call(sortInput, a) - Array.prototype.indexOf.call(sortInput, b) : 0;
   }
 
   return compare & 4 ? -1 : 1;
-
 };
 
-const sortStable = getExpando().split('').sort(sortOrder).join('') === getExpando();
+const sortStable =
+  getExpando()
+    .split('')
+    .sort(sortOrder)
+    .join('') === getExpando();
 /**
  *
  * @export
@@ -88,8 +84,7 @@ export function uniqueSort(results) {
     j = 0,
     el;
   hasDuplicate = false;
-  sortInput = !sortStable && (
-    results.slice ? results.slice(results, 0) : Array.prototype.slice.call(results, 0));
+  sortInput = !sortStable && (results.slice ? results.slice(results, 0) : Array.prototype.slice.call(results, 0));
 
   Array.prototype.sort.call(results, sortOrder);
 
@@ -109,5 +104,4 @@ export function uniqueSort(results) {
   sortInput = null;
 
   return results;
-
 }

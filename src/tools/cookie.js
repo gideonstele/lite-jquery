@@ -33,6 +33,6 @@ function cookie(name, value, options) {
     }
     document.cookie = name + '=' + value;
   }
-};
+}
 
 export default cookie;

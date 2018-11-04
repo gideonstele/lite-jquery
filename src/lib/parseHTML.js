@@ -1,6 +1,4 @@
-import {
-  doc
-} from '../config/const';
+import { doc } from '../config/const';
 import ys from '../tools/ys';
 
 /**
@@ -29,28 +27,13 @@ var map = {
   _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']
 };
 
-map.td =
-  map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+map.td = map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
 
-map.option =
-  map.optgroup = [1, '<select multiple="multiple">', '</select>'];
+map.option = map.optgroup = [1, '<select multiple="multiple">', '</select>'];
 
-map.thead =
-  map.tbody =
-  map.colgroup =
-  map.caption =
-  map.tfoot = [1, '<table>', '</table>'];
+map.thead = map.tbody = map.colgroup = map.caption = map.tfoot = [1, '<table>', '</table>'];
 
-map.polyline =
-  map.ellipse =
-  map.polygon =
-  map.circle =
-  map.text =
-  map.line =
-  map.path =
-  map.rect =
-  map.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">', '</svg>'];
-
+map.polyline = map.ellipse = map.polygon = map.circle = map.text = map.line = map.path = map.rect = map.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">', '</svg>'];
 
 /**
  * Parse `html` and return a DOM Node instance, which could be a TextNode,

@@ -32,7 +32,8 @@ export function store(key, value) {
 export function removeStore(key) {
   try {
     localStorage.removeItem(key);
-  } catch (e) { // 可能在隐私模式，不支持localStorage值，会存储成全局变量
+  } catch (e) {
+    // 可能在隐私模式，不支持localStorage值，会存储成全局变量
     if (_store) delete _store[key];
   }
 }
@@ -43,10 +44,12 @@ export function session(key, value) {
       value = sessionStorage.getItem(key);
       _session[key] = _session[key] ? _session[key] : null;
       return value ? _parse(value) : _session[key];
-    } else { // set值
+    } else {
+      // set值
       sessionStorage.setItem(key, _stringify(value));
     }
-  } catch (e) { // 可能在隐私模式，不支持localStorage set值，存储成全局变量
+  } catch (e) {
+    // 可能在隐私模式，不支持localStorage set值，存储成全局变量
     _session[key] = value;
   }
 }

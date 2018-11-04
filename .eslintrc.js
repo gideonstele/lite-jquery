@@ -3,11 +3,9 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: 'babel-eslint',
-    // sourceType: 'module',
-    ecmaFeatures: {
-      ecmaVersion: 7
-    }
+    parser: require.resolve('babel-eslint'),
+    ecmaVersion: 2018,
+    sourceType: 'module'
   },
   env: {
     browser: true,
@@ -16,21 +14,25 @@ module.exports = {
   extends: [
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard',
-    'plugin:prettier/recommended'
+    'prettier'
+  ],
+  plugins: [
+    'prettier'
   ],
   // add your custom rules here
   rules: {
+    'prettier/prettier': 'warn',
     // allow async-await
     'generator-star-spacing': 'off',
     'space-before-function-paren': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     semi: ['warn', 'always'],
     eqeqeq: ['warn'],
     'eol-last': ['off'],
     'no-multiple-empty-lines': ['off'],
     'one-var': ['off'],
-    indent: ['off'],
     'no-proto': ['off'],
     'wrap-iife': ['off'],
     'import/first': ['off'],
